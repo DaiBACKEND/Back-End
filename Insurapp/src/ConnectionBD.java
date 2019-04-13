@@ -86,6 +86,7 @@ public class ConnectionBD {
 		PreparedStatement sp = connection.prepareStatement(query);
 		sp.executeUpdate();		
 	}
+	//ainda dá erro
 	public static void UpdateQuery(String tabela, String[] colunas, Object[] valores, String id) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException
 	{
 		Class.forName("com.mysql.jdbc.Driver").newInstance();
@@ -113,6 +114,7 @@ public class ConnectionBD {
 				sp.executeUpdate();	
 		
 	}
+	//não faz nada no postman
 	public static void DeleteQuery(String tabela, String id) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException
 	{
 		Class.forName("com.mysql.jdbc.Driver").newInstance();

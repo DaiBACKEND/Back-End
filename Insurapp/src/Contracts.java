@@ -27,6 +27,7 @@ public class Contracts extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
+  //está despachado 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
 			response.setContentType("application/json");
@@ -39,6 +40,7 @@ public class Contracts extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
+	//está despachado 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String tabela = "contrato";
 		String[] colunas = {"apolice", "morada", "user_id", "descricao", "data_validade"};		

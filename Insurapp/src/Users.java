@@ -27,7 +27,8 @@ public class Users extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	//está despachado 
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
 			response.setContentType("application/json");
 			response.getWriter().append((ConnectionBD.SelectQuery("user"))); 
@@ -39,6 +40,7 @@ public class Users extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
+	//está despachado
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String tabela = "user";
 		String[] colunas = {"tipo_id", "nome", "username", "email", "password", "morada", "telemovel", "nif", "sexo", "foto", "data_nascimento", "numero_contrato"};		
@@ -54,6 +56,7 @@ public class Users extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPut(HttpServletRequest, HttpServletResponse)
 	 */
+	//não funciona
 	protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String tabela = "user";
 		String[] colunas = {"tipo_id", "nome", "username", "email", "password", "morada", "telemovel", "nif", "sexo", "foto", "data_nascimento", "numero_contrato"};		
@@ -70,15 +73,30 @@ public class Users extends HttpServlet {
 	/**
 	 * @see HttpServlet#doDelete(HttpServletRequest, HttpServletResponse)
 	 */
+	//dá erro mas é estúpido não dar porque supostamente este código funciona
 	protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String tabela = "user";
+		/*String tabela = "user";
 		String id = request.getParameter("id");
 		try {
 			response.setContentType("application/json");
 			ConnectionBD.DeleteQuery(tabela, id); 
 		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
+		}*/
+		String idcoluna = "id";
+		String id = "";
+		String tabela = "user";
+		String url = request.getRequestURI();
+		String route = "/Insurapp/users";
+		String split_url[] = url.split("/");
+		for (int i = 0; i < split_url.length; i++)
+		{
+			if (i < 2)
+				route += "/" + split_url[i+1];
+			else if (i == 3)
+				id = split_url[i];
 		}
+		System.out.println(id);
 	}
 
 }
