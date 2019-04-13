@@ -28,11 +28,10 @@ public class Losses extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		try {
-			response.getWriter().append((ConnectionBD.SelectQuery("sinistro")));
+			response.setContentType("application/json");
+			response.getWriter().append((ConnectionBD.SelectQuery("sinistro"))); 
 		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -41,8 +40,15 @@ public class Losses extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
+		String tabela = "sinistro";
+		String[] colunas = {"estado_id", "user_id", "contrato_apolice", "contrato_morada", "data_hora", "descricao", "fotos", "instervencao_autoridades"};		
+		Object[] valores = {request.getParameter("estado_id"), request.getParameter("user_id"), request.getParameter("contrato_apolice"), request.getParameter("contrato_morada"), request.getParameter("data_hora"), request.getParameter("descricao"), request.getParameter("fotos"), request.getParameter("intervencao_autoridades")};
+		try {
+			response.setContentType("application/json");
+			ConnectionBD.InsertQuery(tabela, colunas, valores);
+		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**

@@ -28,11 +28,10 @@ public class Contracts extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		try {
-			response.getWriter().append((ConnectionBD.SelectQuery("contrato")));
+			response.setContentType("application/json");
+			response.getWriter().append((ConnectionBD.SelectQuery("contrato"))); 
 		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -41,8 +40,15 @@ public class Contracts extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
+		String tabela = "contrato";
+		String[] colunas = {"apolice", "morada", "user_id", "descricao", "data_validade"};		
+		Object[] valores = {request.getParameter("apolice"), request.getParameter("morada"), request.getParameter("user_id"), request.getParameter("descricao"), request.getParameter("data_validade")};
+		try {
+			response.setContentType("application/json");
+			ConnectionBD.InsertQuery(tabela, colunas, valores);
+		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**

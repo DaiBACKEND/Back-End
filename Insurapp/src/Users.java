@@ -23,13 +23,14 @@ public class Users extends HttpServlet {
         super();
         // TODO Auto-generated constructor stub
     }
-
+   
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
-			response.getWriter().append((ConnectionBD.SelectQuery("user")));
+			response.setContentType("application/json");
+			response.getWriter().append((ConnectionBD.SelectQuery("user"))); 
 		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 		}
@@ -43,6 +44,7 @@ public class Users extends HttpServlet {
 		String[] colunas = {"tipo_id", "nome", "username", "email", "password", "morada", "telemovel", "nif", "sexo", "foto", "data_nascimento", "numero_contrato"};		
 		Object[] valores = {request.getParameter("tipo_id"), request.getParameter("nome"), request.getParameter("username"), request.getParameter("email"), request.getParameter("password"), request.getParameter("morada"), request.getParameter("telemovel"), request.getParameter("nif"), request.getParameter("sexo"), request.getParameter("foto"), request.getParameter("data_nascimento"), request.getParameter("numero_contrato")};
 		try {
+			response.setContentType("application/json");
 			ConnectionBD.InsertQuery(tabela, colunas, valores);
 		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
@@ -58,6 +60,7 @@ public class Users extends HttpServlet {
 		Object[] valores = {request.getParameter("tipo_id"), request.getParameter("nome"), request.getParameter("username"), request.getParameter("email"), request.getParameter("password"), request.getParameter("morada"), request.getParameter("telemovel"), request.getParameter("nif"), request.getParameter("sexo"), request.getParameter("foto"), request.getParameter("data_nascimento"), request.getParameter("numero_contrato")};
 		String id = request.getParameter("id");
 		try {
+			response.setContentType("application/json");
 			ConnectionBD.UpdateQuery(tabela, colunas, valores, id);
 		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
@@ -68,7 +71,14 @@ public class Users extends HttpServlet {
 	 * @see HttpServlet#doDelete(HttpServletRequest, HttpServletResponse)
 	 */
 	protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		String tabela = "user";
+		String id = request.getParameter("id");
+		try {
+			response.setContentType("application/json");
+			ConnectionBD.DeleteQuery(tabela, id); 
+		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 }
