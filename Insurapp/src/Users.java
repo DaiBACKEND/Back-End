@@ -1,13 +1,21 @@
 
 
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.mysql.jdbc.Connection;
+import com.mysql.jdbc.PreparedStatement;
 
 /**
  * Servlet implementation class Users
@@ -43,8 +51,8 @@ public class Users extends HttpServlet {
 	//está despachado
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String tabela = "user";
-		String[] colunas = {"tipo_id", "nome", "username", "email", "password", "morada", "telemovel", "nif", "sexo", "foto", "data_nascimento", "numero_contrato"};		
-		Object[] valores = {request.getParameter("tipo_id"), request.getParameter("nome"), request.getParameter("username"), request.getParameter("email"), request.getParameter("password"), request.getParameter("morada"), request.getParameter("telemovel"), request.getParameter("nif"), request.getParameter("sexo"), request.getParameter("foto"), request.getParameter("data_nascimento"), request.getParameter("numero_contrato")};
+		String[] colunas = {"tipo_id", "nome", "username", "email", "password", "morada", "contacto", "nif", "sexo", "data_nascimento", "numero_contrato", "cidade", "pais", "codigo_postal"};		
+		Object[] valores = {request.getParameter("tipo_id"), request.getParameter("nome"), request.getParameter("username"), request.getParameter("email"), request.getParameter("password"), request.getParameter("morada"), request.getParameter("contacto"), request.getParameter("nif"), request.getParameter("sexo"), request.getParameter("data_nascimento"), request.getParameter("numero_contrato"), request.getParameter("cidade"), request.getParameter("pais"), request.getParameter("codigo_postal")};
 		try {
 			response.setContentType("application/json");
 			ConnectionBD.InsertQuery(tabela, colunas, valores);
@@ -83,12 +91,14 @@ public class Users extends HttpServlet {
 		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 		}*/
+		
 		String idcoluna = "id";
 		String id = "";
 		String tabela = "user";
 		String url = request.getRequestURI();
 		String route = "/Insurapp/users";
 		String split_url[] = url.split("/");
+		response.setContentType("application/json");
 		for (int i = 0; i < split_url.length; i++)
 		{
 			if (i < 2)
@@ -96,7 +106,25 @@ public class Users extends HttpServlet {
 			else if (i == 3)
 				id = split_url[i];
 		}
+		try {
+			id = request.getParameter("id");
+			ConnectionBD.DeleteQuery(tabela, id);
+		} catch (InstantiationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		System.out.println(id);
-	}
+
+		}
+
 
 }

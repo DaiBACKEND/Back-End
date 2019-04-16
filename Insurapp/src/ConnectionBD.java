@@ -14,8 +14,8 @@ public class ConnectionBD {
 	static String databaseName = "insurapp";
 	static String url = "jdbc:mysql://35.195.53.224:3306/insurapp?autoReconnect=true&useSSL=false";
 	
-	static String username = "daiuser";
-	static String password = "daiuser";
+	static String username = "insurapp";
+	static String password = "insurappdai";
 	
 	public static String SelectQuery(String tabela) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException
 	{
@@ -120,8 +120,8 @@ public class ConnectionBD {
 		Class.forName("com.mysql.jdbc.Driver").newInstance();
 		connection = DriverManager.getConnection(url, username, password);
 		
-		String query2 ="DELETE FROM " + tabela + " WHERE ";
-		query2 += "(id = '" + id + "')";
+		String query2 ="DELETE FROM " + tabela + " WHERE (id = ";
+		query2 += "'" + id + "')";
 				System.out.println(query2);
 				
 				PreparedStatement sp = connection.prepareStatement(query2);

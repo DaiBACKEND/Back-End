@@ -10,16 +10,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Servlet implementation class Contracts
+ * Servlet implementation class Homes
  */
-@WebServlet("/contracts")
-public class Contracts extends HttpServlet {
+@WebServlet("/homes")
+public class Homes extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public Contracts() {
+    public Homes() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -27,11 +27,10 @@ public class Contracts extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
-  //está despachado 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
 			response.setContentType("application/json");
-			response.getWriter().append((ConnectionBD.SelectQuery("contrato"))); 
+			response.getWriter().append((ConnectionBD.SelectQuery("habitacao"))); 
 		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 		}
@@ -40,11 +39,10 @@ public class Contracts extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
-	//está despachado 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String tabela = "contrato";
-		String[] colunas = {"apolice", "morada", "user_id", "descricao", "data_validade"};		
-		Object[] valores = {request.getParameter("apolice"), request.getParameter("morada"), request.getParameter("user_id"), request.getParameter("descricao"), request.getParameter("data_validade")};
+		String tabela = "habitacao";
+		String[] colunas = {"user_id", "nome"};		
+		Object[] valores = {request.getParameter("user_id"), request.getParameter("nome")};
 		try {
 			response.setContentType("application/json");
 			ConnectionBD.InsertQuery(tabela, colunas, valores);
@@ -52,6 +50,7 @@ public class Contracts extends HttpServlet {
 			e.printStackTrace();
 		}
 	}
+
 	/**
 	 * @see HttpServlet#doPut(HttpServletRequest, HttpServletResponse)
 	 */
