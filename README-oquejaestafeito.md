@@ -7,3 +7,12 @@ Post {todas as de cima e a de utilizadores já encripta a password e também o l
 Put {nenhuma funciona, ainda não foi resolvido o problema de não ler os parametros que são inseridos}
 Delete {todas a funcionar (igual ao get)}
 
+para testar o login
+
+username: insruappdai
+password: insurapp123
+
+username:libertyseg
+password:liberty000
+
+-Todas as rotas foram testadas no postman.
