@@ -2,6 +2,7 @@
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -33,6 +34,8 @@ public class Homes extends HttpServlet {
 	 */
     //funciona
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		setAccessControlHeaders(response);
+		
 		try {
 			String json = new Gson().toJson(ConnectionBD.SelectQuery("habitacao"));
 			response.setContentType("application/json");
@@ -47,6 +50,8 @@ public class Homes extends HttpServlet {
 	 */
 	//funciona
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		setAccessControlHeaders(response);
+		
 		String tabela = "habitacao";
 		String[] colunas = {"user_id", "nome"};		
 		Object[] valores = {request.getParameter("user_id"), request.getParameter("nome")};
@@ -61,18 +66,43 @@ public class Homes extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPut(HttpServletRequest, HttpServletResponse)
 	 */
-	//não funciona
+	//funciona
 	protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String tabela = "habitacao";
-		String[] colunas = {"user_id", "nome"};
-		Object[] valores = {request.getParameter("user_id"), request.getParameter("nome")};
-		String id = request.getParameter("id");
-		try {
-			response.setContentType("application/json");
-			ConnectionBD.UpdateQuery(tabela, colunas, valores, id);
-		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e) {
-			e.printStackTrace();
-		}
+		setAccessControlHeaders(response);
+			
+				String tabela = "";
+				String id= "";
+				String colunas[] = {};
+				String valores[]= {};
+				String url = request.getRequestURI();
+				
+				
+				if (URLHelper.UrlContainsValues(url))
+				{
+					Map<String, String> valores1 = URLHelper.UrlValues(url);
+				    String route = valores1.get("route");
+				    
+					String user_id = valores1.get("user_id");
+					String nome = valores1.get("nome");
+					
+					tabela = "habitacao";
+					String c[] = {"user_id", "nome"};
+					colunas = c;
+					String v[] = {user_id, nome};
+					valores = v;
+					
+					id = valores1.get("id");
+					try {
+						 ConnectionBD.UpdateQuery(tabela, colunas, valores, id);
+					 } catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e) {
+					 
+					 e.printStackTrace();
+					 }
+				}
+				else
+				{
+					System.out.println("Nenhum valor foi recebido!!");
+				}
 	}
 
 	/**
@@ -80,8 +110,8 @@ public class Homes extends HttpServlet {
 	 */
 	//funciona
 	protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-		String idcoluna = "id";
+		setAccessControlHeaders(response);
+		
 		String id = "";
 		String tabela = "habitacao";
 		String url = request.getRequestURI();
@@ -103,4 +133,8 @@ public class Homes extends HttpServlet {
 		}
 	}
 
+	 private void setAccessControlHeaders(HttpServletResponse response) {
+	      response.setHeader("Access-Control-Allow-Origin", "*");
+	      response.setHeader("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE");
+	  }
 }

@@ -2,6 +2,7 @@
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -33,6 +34,8 @@ public class Contracts extends HttpServlet {
 	 */
   //funciona 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		setAccessControlHeaders(response);
+		
 		try {
 			String json = new Gson().toJson(ConnectionBD.SelectQuery("contrato"));
 			response.setContentType("application/json");
@@ -47,6 +50,8 @@ public class Contracts extends HttpServlet {
 	 */
 	//funciona 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		setAccessControlHeaders(response);
+		
 		String tabela = "contrato";
 		String[] colunas = {"apolice", "morada", "user_id", "descricao", "data_validade"};		
 		Object[] valores = {request.getParameter("apolice"), request.getParameter("morada"), request.getParameter("user_id"), request.getParameter("descricao"), request.getParameter("data_validade")};
@@ -60,18 +65,46 @@ public class Contracts extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPut(HttpServletRequest, HttpServletResponse)
 	 */
-	//não funciona
+	//funciona
 	protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String tabela = "contrato";
-		String[] colunas = {"apolice", "morada", "user_id", "descricao", "data_validade"};
-		Object[] valores = {request.getParameter("apolice"), request.getParameter("morada"), request.getParameter("user_id"), request.getParameter("descricao"), request.getParameter("data_validade")};
-		String id = request.getParameter("id");
-		try {
-			response.setContentType("application/json");
-			ConnectionBD.UpdateQuery(tabela, colunas, valores, id);
-		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e) {
-			e.printStackTrace();
-		}
+		setAccessControlHeaders(response);
+			
+				String tabela = "";
+				String id= "";
+				String colunas[] = {};
+				String valores[]= {};
+				String url = request.getRequestURI();
+				
+				
+				if (URLHelper.UrlContainsValues(url))
+				{
+					Map<String, String> valores1 = URLHelper.UrlValues(url);
+				    String route = valores1.get("route");
+				    
+					String apolice = valores1.get("apolice");
+					String morada = valores1.get("morada");
+					String user_id = valores1.get("user_id");
+					String descricao = valores1.get("descricao");
+					String data_validade = valores1.get("data_validade");
+					
+					tabela = "contrato";
+					String c[] = {"apolice", "morada", "user_id", "descricao", "data_validade"};
+					colunas = c;
+					String v[] = {apolice, morada, user_id, descricao, data_validade};
+					valores = v;
+					
+					id = valores1.get("id");
+					try {
+						 ConnectionBD.UpdateQuery(tabela, colunas, valores, id);
+					 } catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e) {
+					 
+					 e.printStackTrace();
+					 }
+				}
+				else
+				{
+					System.out.println("Nenhum valor foi recebido!!");
+				}
 	}
 
 	/**
@@ -79,8 +112,8 @@ public class Contracts extends HttpServlet {
 	 */
 	//funciona
 	protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-		String idcoluna = "id";
+		setAccessControlHeaders(response);
+		
 		String id = "";
 		String tabela = "contrato";
 		String url = request.getRequestURI();
@@ -101,5 +134,10 @@ public class Contracts extends HttpServlet {
 				}
 		}
 	}
-
+	 
+private void setAccessControlHeaders(HttpServletResponse response) {
+	      response.setHeader("Access-Control-Allow-Origin", "*");
+	      response.setHeader("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE");
+	  }
+	
 }

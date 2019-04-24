@@ -1,6 +1,7 @@
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -32,6 +33,8 @@ public class Losses extends HttpServlet {
 	 */
   //funciona 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		setAccessControlHeaders(response);
+		
 		try {
 			String json = new Gson().toJson(ConnectionBD.SelectQuery("sinistro"));
 			response.setContentType("application/json");
@@ -46,6 +49,8 @@ public class Losses extends HttpServlet {
 	 */
 	//funciona 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		setAccessControlHeaders(response);
+		
 		String tabela = "sinistro";
 		String[] colunas = {"estado_id", "user_id", "contrato_apolice", "contrato_morada", "data_hora", "descricao", "fotos", "intervencao_autoridades", "titulo"};		
 		Object[] valores = {request.getParameter("estado_id"), request.getParameter("user_id"), request.getParameter("contrato_apolice"), request.getParameter("contrato_morada"), request.getParameter("data_hora"), request.getParameter("descricao"), request.getParameter("fotos"), request.getParameter("intervencao_autoridades"), request.getParameter("titulo")};
@@ -60,27 +65,58 @@ public class Losses extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPut(HttpServletRequest, HttpServletResponse)
 	 */
-	//não funciona
+	//funciona
 	protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String tabela = "sinistro";
-		String[] colunas = {"estado_id", "user_id", "contrato_apolice", "contrato_morada", "data_hora", "descricao", "fotos", "intervencao_autoridades"};		
-		Object[] valores = {request.getParameter("estado_id"), request.getParameter("user_id"), request.getParameter("contrato_apolice"), request.getParameter("contrato_morada"), request.getParameter("data_hora"), request.getParameter("descricao"), request.getParameter("fotos"), request.getParameter("intervencao_autoridades")};
-		String id = request.getParameter("id");
-		try {
-			response.setContentType("application/json");
-			ConnectionBD.UpdateQuery(tabela, colunas, valores, id);
-		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e) {
-			e.printStackTrace();
+		setAccessControlHeaders(response);
+	
+		String tabela = "";
+		String id= "";
+		String colunas[] = {};
+		String valores[]= {};
+		String url = request.getRequestURI();
+		
+		
+		if (URLHelper.UrlContainsValues(url))
+		{
+			Map<String, String> valores1 = URLHelper.UrlValues(url);
+		    String route = valores1.get("route");
+		    
+			String estado_id = valores1.get("estado_id");
+			String user_id = valores1.get("user_id");
+			String contrato_apolice = valores1.get("contrato_apolice");
+			String contrato_morada = valores1.get("contrato_morada");
+			String data_hora = valores1.get("data_hora");
+			String descricao = valores1.get("descricao");
+			String fotos = valores1.get("fotos");
+			String intervencao_autoridades = valores1.get("intervencao_autoridades");
+			
+			tabela = "sinistro";
+			String c[] = {"estado_id", "user_id", "contrato_apolice", "contrato_morada", "data_hora", "descricao", "fotos", "intervencao_autoridades"};
+			colunas = c;
+			String v[] = {estado_id, user_id, contrato_apolice, contrato_morada, data_hora, descricao, fotos, intervencao_autoridades};
+			valores = v;
+			
+			id = valores1.get("id");
+			try {
+				 ConnectionBD.UpdateQuery(tabela, colunas, valores, id);
+			 } catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e) {
+			 
+			 e.printStackTrace();
+			 }
 		}
-	}
+		else
+		{
+			System.out.println("Nenhum valor foi recebido!!");
+		}
+}
 
 	/**
 	 * @see HttpServlet#doDelete(HttpServletRequest, HttpServletResponse)
 	 */
 	//funciona
 	protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		setAccessControlHeaders(response);
 
-		String idcoluna = "id";
 		String id = "";
 		String tabela = "sinistro";
 		String url = request.getRequestURI();
@@ -102,4 +138,8 @@ public class Losses extends HttpServlet {
 		}
 	}
 
+	 private void setAccessControlHeaders(HttpServletResponse response) {
+	      response.setHeader("Access-Control-Allow-Origin", "*");
+	      response.setHeader("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE");
+	  }
 }

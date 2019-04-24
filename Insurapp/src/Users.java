@@ -4,6 +4,9 @@ import java.io.IOException;
 //import java.sql.DriverManager;
 //import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Arrays;
+import java.util.Map;
+
 //import java.util.ArrayList;
 //import java.security.SecureRandom;
 import com.google.gson.Gson;
@@ -19,14 +22,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.json.JSONException;
-
 //import com.mysql.jdbc.Connection;
 //import com.mysql.jdbc.PreparedStatement;
 
 /**
  * Servlet implementation class Users
  */
-@WebServlet({ "/users", "/users/*", "/user/*" })
+@WebServlet({ "/users", "/users/*"})
 public class Users extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -41,42 +43,38 @@ public class Users extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
-	//funciona (falta ver como fazer para selecionar os users pelo tipo
+	//funciona, quando apenas /users mostra todos e quando /users/* mostra pelo id do tipo inserido no url
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-			try {
+    	setAccessControlHeaders(response);
+    	response.setContentType("application/json");
+    	
+    	if(request.getPathInfo() == null) {
+    		try {
 				String json = new Gson().toJson(ConnectionBD.SelectQuery("user"));
 				response.setContentType("application/json");
 				response.getWriter().write(json);
 			} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException
 					| JSONException e1) {
 				e1.printStackTrace();
-			}
-			
-    		
-			//código de ver users pelo tipo, ver como pôr a funcionar aqui neste get
-			/*String idcoluna = "id";
-			String id = "";
-			String tabela = "user";
-			String route = "/Insurapp/users/";
-			String url = request.getRequestURI();
-			String split_url[] = url.split("/");
-			response.setContentType("application/json");
-			for (int i = 0; i < split_url.length; i++)
-			{
-				if (i < 2)
-					route += "/" + split_url[i+1];
-				else if (i == 3)
-					id = split_url[i];
-				    try {
-						ConnectionBD.UserTipoID(id);
-					} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				    
-    	}
-		*/
-    }
+			} 
+    		}
+    		else {
+    			String id = "";
+    			String url = request.getRequestURI();
+    			String split_url[] = url.split("/");
+    			response.setContentType("application/json");
+    			id = split_url[3];
+    				    try {
+    				    	String json = new Gson().toJson(ConnectionBD.UserTipoID(id));
+    						response.getWriter().write(json);
+    					} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e) {
+    						// TODO Auto-generated catch block
+    						e.printStackTrace();
+    					}
+    				    
+        	}
+    		}
+
 
 
 
@@ -85,6 +83,8 @@ public class Users extends HttpServlet {
 	 */
 	//funciona
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		setAccessControlHeaders(response);
+		
 		String tabela = "user";
 		String[] colunas = {"tipo_id", "nome", "username", "email", "password", "morada", "contacto", "nif", "sexo", "data_nascimento", "numero_contrato", "cidade", "pais", "codigo_postal"};		
 		String password = request.getParameter("password");
@@ -101,19 +101,55 @@ public class Users extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPut(HttpServletRequest, HttpServletResponse)
 	 */
-	//não funciona
+	//funciona
 	protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String tabela = "user";
-		String[] colunas = {"tipo_id", "nome", "username", "email", "password", "morada", "telemovel", "nif", "sexo", "foto", "data_nascimento", "numero_contrato"};
-		String password = request.getParameter("password");
-		String hashed = BCrypt.hashpw(password, BCrypt.gensalt());
-		Object[] valores = {request.getParameter("tipo_id"), request.getParameter("nome"), request.getParameter("username"), request.getParameter("email"), hashed, request.getParameter("morada"), request.getParameter("telemovel"), request.getParameter("nif"), request.getParameter("sexo"), request.getParameter("foto"), request.getParameter("data_nascimento"), request.getParameter("numero_contrato")};
-		String id = request.getParameter("id");
-		try {
-			response.setContentType("application/json");
-			ConnectionBD.UpdateQuery(tabela, colunas, valores, id);
-		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e) {
-			e.printStackTrace();
+		setAccessControlHeaders(response);
+	
+		String tabela = "";
+		String id= "";
+		String colunas[] = {};
+		String valores[]= {};
+		String url = request.getRequestURI();
+		
+		
+		if (URLHelper.UrlContainsValues(url))
+		{
+			Map<String, String> valores1 = URLHelper.UrlValues(url);
+		    String route = valores1.get("route");
+		    
+			String tipo_id = valores1.get("tipo_id");
+			String nome = valores1.get("nome");
+			String username = valores1.get("username");
+			String email = valores1.get("email");
+			String pass = valores1.get("password");
+			String password = BCrypt.hashpw(pass, BCrypt.gensalt());
+			String morada = valores1.get("morada");
+			String contacto = valores1.get("contacto");
+			String nif = valores1.get("nif");
+			String sexo = valores1.get("sexo");
+			String data_nascimento = valores1.get("data_nascimento");
+			String numero_contrato = valores1.get("numero_contrato");
+			String cidade = valores1.get("cidade");
+			String pais = valores1.get("pais");
+			String codigo_postal = valores1.get("codigo_postal");
+			
+			tabela = "user";
+			String c[] = {"tipo_id", "nome", "username", "email", "password", "morada", "contacto", "nif", "sexo", "data_nascimento", "numero_contrato", "cidade", "pais", "codigo_postal"};
+			colunas = c;
+			String v[] = {tipo_id, nome, username, email, password, morada, contacto, nif, sexo, data_nascimento, numero_contrato, cidade, pais, codigo_postal};
+			valores = v;
+			
+			id = valores1.get("id");
+			try {
+				 ConnectionBD.UpdateQuery(tabela, colunas, valores, id);
+			 } catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e) {
+			 
+			 e.printStackTrace();
+			 }
+		}
+		else
+		{
+			System.out.println("Nenhum valor foi recebido!!");
 		}
 	}
 
@@ -122,8 +158,8 @@ public class Users extends HttpServlet {
 	 */
 	//funciona
 	protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		setAccessControlHeaders(response);
 		
-		String idcoluna = "id";
 		String id = "";
 		String tabela = "user";
 		String url = request.getRequestURI();
@@ -145,5 +181,9 @@ public class Users extends HttpServlet {
 		}
 		}
 
+	 private void setAccessControlHeaders(HttpServletResponse response) {
+	      response.setHeader("Access-Control-Allow-Origin", "*");
+	      response.setHeader("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE");
+	  }
 
 }

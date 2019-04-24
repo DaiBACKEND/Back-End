@@ -93,7 +93,7 @@ public class ConnectionBD {
 		PreparedStatement sp = connection.prepareStatement(query);
 		sp.executeUpdate();		
 	}
-	//ainda dá erro
+	//funciona
 	public static void UpdateQuery(String tabela, String[] colunas, Object[] valores, String id) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException
 	{
 		Class.forName("com.mysql.jdbc.Driver").newInstance();
@@ -101,20 +101,17 @@ public class ConnectionBD {
 		
 		String query1 ="UPDATE " + tabela + " SET ";
 		
-				for (int i = 0,  j = 0; i < colunas.length && j < valores.length;  j++ , i++)
-				{
-					query1 += colunas[i] + " = " + "'" + valores[j].toString() + "' ,";
-					
-					if (i != colunas.length-1 && j != valores.length-1)
-					{
-						query1 += colunas[i] + " = " + "'" + valores[j].toString() + "' ,";
-						
-					}
-					else
-					{
-						query1 += " WHERE (id = " + "'" + id + "')";
-					}
-				}
+		for (int i = 0; i < colunas.length; i++) {
+			
+			query1 += colunas[i] + " = '" + valores[i] + "'";			
+			
+			if (i != colunas.length-1)
+			{
+				query1 += ", ";
+			}
+		}
+		
+		query1 += " WHERE id = " + id; 
 				System.out.println(query1);
 				
 				PreparedStatement sp = connection.prepareStatement(query1);
@@ -136,7 +133,7 @@ public class ConnectionBD {
 		
 	}
 	//falta implementar sessions
-	public static String Login(String usernamel, String passwordl) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException
+	public static boolean Login(String usernamel, String passwordl) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException
 	{
 		Class.forName("com.mysql.jdbc.Driver").newInstance();
 		connection = DriverManager.getConnection(url, username, password);
@@ -154,18 +151,21 @@ public class ConnectionBD {
 				 rs1.next();
 				 String pass = rs1.getString("password");
 				 String s= "";
+				 boolean b;
 				 
 					 if(BCrypt.checkpw(passwordl, pass)) {
-						    s = "Dados de Login corretos!";
+						    b = true;
+						 	s = "Dados de Login corretos!";
 					 	    System.out.println(s);
 					     
 	                } 
 	                else {
-	                    s = "Dados de Login incorretos!";
+	                    b = false;
+	                	s = "Dados de Login incorretos!";
 	                    System.out.println(s);
 	                }
 				 
-				 return s;
+				 return b;
 		
 	}
 	public static String UserTipoID(String id) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException
@@ -188,7 +188,6 @@ public class ConnectionBD {
 	        System.out.println(list);
 	        json = new Gson().toJson(list);
 	    }
-	    
 	    return json;
 		  }
 	}

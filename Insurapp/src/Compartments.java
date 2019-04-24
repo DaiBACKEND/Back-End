@@ -2,6 +2,7 @@
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -33,6 +34,8 @@ public class Compartments extends HttpServlet {
 	 */
     //funciona
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		setAccessControlHeaders(response);
+		
 		try {
 			String json = new Gson().toJson(ConnectionBD.SelectQuery("compartimento"));
 			response.setContentType("application/json");
@@ -47,6 +50,8 @@ public class Compartments extends HttpServlet {
 	 */
 	//funciona
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		setAccessControlHeaders(response);
+		
 		String tabela = "compartimento";
 		String[] colunas = {"habitacao_id", "descricao", "estado"};		
 		Object[] valores = {request.getParameter("habitacao_id"), request.getParameter("descricao"), request.getParameter("estado")};
@@ -61,17 +66,43 @@ public class Compartments extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPut(HttpServletRequest, HttpServletResponse)
 	 */
-	//não funciona
+	//funciona
 	protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String tabela = "compartimento";
-		String[] colunas = {"habitacao_id", "descricao", "estado"};
-		Object[] valores = {request.getParameter("habitacao_id"), request.getParameter("descricao"), request.getParameter("estado")};
-		String id = request.getParameter("id");
-		try {
-			response.setContentType("application/json");
-			ConnectionBD.UpdateQuery(tabela, colunas, valores, id);
-		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e) {
-			e.printStackTrace();
+		setAccessControlHeaders(response);
+	
+		String tabela = "";
+		String id= "";
+		String colunas[] = {};
+		String valores[]= {};
+		String url = request.getRequestURI();
+		
+		
+		if (URLHelper.UrlContainsValues(url))
+		{
+			Map<String, String> valores1 = URLHelper.UrlValues(url);
+		    String route = valores1.get("route");
+		    
+			String habitacao_id = valores1.get("habitacao_id");
+			String descricao = valores1.get("descricao");
+			String estado = valores1.get("estado");
+			
+			tabela = "compartimento";
+			String c[] = {"habitacao_id", "descricao", "estado"};
+			colunas = c;
+			String v[] = {habitacao_id, descricao, estado};
+			valores = v;
+			
+			id = valores1.get("id");
+			try {
+				 ConnectionBD.UpdateQuery(tabela, colunas, valores, id);
+			 } catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e) {
+			 
+			 e.printStackTrace();
+			 }
+		}
+		else
+		{
+			System.out.println("Nenhum valor foi recebido!!");
 		}
 	}
 
@@ -80,8 +111,8 @@ public class Compartments extends HttpServlet {
 	 */
 	//funciona
 	protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-		String idcoluna = "id";
+		setAccessControlHeaders(response);
+		
 		String id = "";
 		String tabela = "compartimento";
 		String url = request.getRequestURI();
@@ -103,4 +134,8 @@ public class Compartments extends HttpServlet {
 		}
 	}
 
+	 private void setAccessControlHeaders(HttpServletResponse response) {
+	      response.setHeader("Access-Control-Allow-Origin", "*");
+	      response.setHeader("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE");
+	  }
 }
