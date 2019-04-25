@@ -7,6 +7,5 @@ Post {todas as de cima e a de utilizadores já encripta a password e também o l
 Put {já funcionam}
 Delete {todas a funcionar (igual ao get)}
 
-para testar o login
 
 -Todas as rotas foram testadas no postman.
