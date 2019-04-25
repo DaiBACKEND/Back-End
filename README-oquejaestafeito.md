@@ -9,10 +9,4 @@ Delete {todas a funcionar (igual ao get)}
 
 para testar o login
 
-username: insruappdai
-password: insurapp123
-
-username:libertyseg
-password:liberty000
-
 -Todas as rotas foram testadas no postman.
