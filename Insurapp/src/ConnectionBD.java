@@ -9,14 +9,12 @@ import java.util.List;
 
 //import org.json.JSONArray;
 import org.json.JSONException;
-//import org.json.JSONObject;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-//import com.google.gson.JsonElement;
 import com.mysql.jdbc.ResultSetMetaData;
 
 
