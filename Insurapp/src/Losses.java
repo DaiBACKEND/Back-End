@@ -1,6 +1,8 @@
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.ServletException;
@@ -34,15 +36,40 @@ public class Losses extends HttpServlet {
   //funciona 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		setAccessControlHeaders(response);
+    	response.setContentType("application/json");
+
+    	String tabela = "sinistro";
+		ArrayList<String> campos = new ArrayList<String>();
+		ArrayList<Object> valores_campos = new ArrayList<Object>();
+		String url = request.getRequestURI();
+		String route = url;
 		
-		try {
-			String json = new Gson().toJson(ConnectionBD.SelectQuery("sinistro"));
-			response.setContentType("application/json");
-			response.getWriter().write(json);
-		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException | JSONException e) {
-			e.printStackTrace();
+		Map<String, String> valores = new HashMap<String,String>();
+		boolean SearchByValue = BuscarURL.UrlContainsValues(url);
+			if (SearchByValue) {
+				valores = BuscarURL.UrlValues(url);
+			    route = valores.get("route");
+			    
+				for(int i = 0; i < valores.keySet().size(); i++)
+				{
+					if (!valores.keySet().toArray()[i].equals("route"))
+					{
+						campos.add((String) valores.keySet().toArray()[i]);
+						valores_campos.add(valores.values().toArray()[i]);
+					}
+				}
+			}
+			try {
+				if (!SearchByValue)
+					response.getWriter().append((ConnectionBD.SelectQuery(tabela)));
+			} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
-	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
@@ -76,9 +103,9 @@ public class Losses extends HttpServlet {
 		String url = request.getRequestURI();
 		
 		
-		if (URLHelper.UrlContainsValues(url))
+		if (BuscarURL.UrlContainsValues(url))
 		{
-			Map<String, String> valores1 = URLHelper.UrlValues(url);
+			Map<String, String> valores1 = BuscarURL.UrlValues(url);
 		    String route = valores1.get("route");
 		    
 			String estado_id = valores1.get("estado_id");

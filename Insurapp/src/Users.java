@@ -4,7 +4,9 @@ import java.io.IOException;
 //import java.sql.DriverManager;
 //import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
 
 //import java.util.ArrayList;
@@ -48,7 +50,61 @@ public class Users extends HttpServlet {
     	setAccessControlHeaders(response);
     	response.setContentType("application/json");
     	
-    	if(request.getPathInfo() == null) {
+    	String id = "";
+    	String tabela = "user";
+		ArrayList<String> campos = new ArrayList<String>();
+		ArrayList<Object> valores_campos = new ArrayList<Object>();
+		String url = request.getRequestURI();
+		String route = url;
+		
+		Map<String, String> valores = new HashMap<String,String>();
+		boolean SearchByValue = BuscarURL.UrlContainsValues(url);
+		
+		if(request.getPathInfo() == null)
+		{
+			if (SearchByValue) {
+				valores = BuscarURL.UrlValues(url);
+			    route = valores.get("route");
+			    
+				for(int i = 0; i < valores.keySet().size(); i++)
+				{
+					if (!valores.keySet().toArray()[i].equals("route"))
+					{
+						campos.add((String) valores.keySet().toArray()[i]);
+						valores_campos.add(valores.values().toArray()[i]);
+					}
+				}
+			}
+			try {
+				if (!SearchByValue)
+					response.getWriter().append((ConnectionBD.SelectQuery(tabela)));
+			} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		else {
+			
+			
+			String split_url[] = url.split("/");
+			response.setContentType("application/json");
+			id = split_url[3];
+			    try {
+			    	response.getWriter().append((ConnectionBD.UserId(tabela, id)));
+				} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+		}
+	
+				
+		
+    	
+    	
+    	/*if(request.getPathInfo() == null) {
     		try {
 				String json = new Gson().toJson(ConnectionBD.SelectQuery("user"));
 				response.setContentType("application/json");
@@ -72,7 +128,7 @@ public class Users extends HttpServlet {
     						e.printStackTrace();
     					}
     				    
-        	}
+        	}*/
     		}
 
 
@@ -112,9 +168,9 @@ public class Users extends HttpServlet {
 		String url = request.getRequestURI();
 		
 		
-		if (URLHelper.UrlContainsValues(url))
+		if (BuscarURL.UrlContainsValues(url))
 		{
-			Map<String, String> valores1 = URLHelper.UrlValues(url);
+			Map<String, String> valores1 = BuscarURL.UrlValues(url);
 		    String route = valores1.get("route");
 		    
 			String tipo_id = valores1.get("tipo_id");

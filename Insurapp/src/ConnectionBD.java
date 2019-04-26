@@ -14,7 +14,8 @@ import org.json.JSONException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
-import com.google.gson.Gson;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 //import com.google.gson.JsonElement;
 import com.mysql.jdbc.ResultSetMetaData;
 
@@ -31,25 +32,39 @@ public class ConnectionBD {
 	public static String SelectQuery(String tabela) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException, JSONException
 	{
 		Class.forName("com.mysql.jdbc.Driver").newInstance();
-		connection = DriverManager.getConnection(url, username, password);
-		PreparedStatement sp = connection.prepareStatement("SELECT * FROM " + tabela);
-		ResultSet resultSet = sp.executeQuery();
-		ResultSetMetaData md = (ResultSetMetaData) resultSet.getMetaData();
-		String json = null;
-		int columns = md.getColumnCount();
-	    List<HashMap<String,Object>> list = new ArrayList<HashMap<String,Object>>();
 
-	    while (resultSet.next()) {
-	        HashMap<String,Object> row = new HashMap<String, Object>(columns);
-	        for(int i=1; i<=columns; ++i) {
-	            row.put(md.getColumnName(i),resultSet.getObject(i));
-	        }
-	        list.add(row);
-	        System.out.println(list);
-	        json = new Gson().toJson(list);
-	    }
-	    
-	    return json;
+		connection = DriverManager.getConnection(url, username, password);
+
+		PreparedStatement sp = connection.prepareStatement("SELECT * FROM " + tabela);
+
+		ResultSet stat = sp.executeQuery();
+
+		ArrayList<Object> object_list = new ArrayList<Object>();
+	
+		while (stat.next()) 
+		{
+			object_list.add(BuscarValores.getValores(tabela, stat));
+		}
+		
+		if(connection != null) {
+
+			System.out.println(sp);
+			connection.close();
+		}
+		
+		ObjectMapper mapper = new ObjectMapper();
+		
+		String jsonInString = "";
+		
+		try {
+			jsonInString = mapper.writeValueAsString(object_list);
+		} catch (JsonProcessingException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+
+		return jsonInString;
+		
 		  }
 
 		
@@ -133,13 +148,13 @@ public class ConnectionBD {
 		
 	}
 	//falta implementar sessions
-	public static boolean Login(String usernamel, String passwordl) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException
+	public static boolean Login(String emaill, String passwordl) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException
 	{
 		Class.forName("com.mysql.jdbc.Driver").newInstance();
 		connection = DriverManager.getConnection(url, username, password);
 		
-		String query3 ="SELECT password FROM user WHERE username = '" + usernamel + "'";
-		String query2 ="SELECT * FROM user WHERE username = '" + usernamel + "' AND password = '" + passwordl + "'";
+		String query3 ="SELECT password FROM user WHERE email = '" + emaill + "'";
+		String query2 ="SELECT * FROM user WHERE email = '" + emaill + "' AND password = '" + passwordl + "'";
 				
 				System.out.println(query2);
 				System.out.println(query3);
@@ -168,27 +183,47 @@ public class ConnectionBD {
 				 return b;
 		
 	}
-	public static String UserTipoID(String id) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException
+	
+	public static String UserId(String tabela, String id) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException
 	{
 		Class.forName("com.mysql.jdbc.Driver").newInstance();
-		connection = DriverManager.getConnection(url, username, password);
-		PreparedStatement sp = connection.prepareStatement("SELECT * FROM user WHERE tipo_id = '" + id + "'");
-		ResultSet resultSet = sp.executeQuery();
-		ResultSetMetaData md = (ResultSetMetaData) resultSet.getMetaData();
-		String json = null;
-		int columns = md.getColumnCount();
-	    List<HashMap<String,Object>> list = new ArrayList<HashMap<String,Object>>();
 
-	    while (resultSet.next()) {
-	        HashMap<String,Object> row = new HashMap<String, Object>(columns);
-	        for(int i=1; i<=columns; ++i) {
-	            row.put(md.getColumnName(i),resultSet.getObject(i));
-	        }
-	        list.add(row);
-	        System.out.println(list);
-	        json = new Gson().toJson(list);
-	    }
-	    return json;
-		  }
+		connection = DriverManager.getConnection(url, username, password);
+
+		String query = "SELECT * FROM " + tabela + " WHERE id = '" + id + "'";
+
+		
+		PreparedStatement sp = connection.prepareStatement(query);
+
+		ResultSet stat = sp.executeQuery();
+
+		ArrayList<Object> object_list = new ArrayList<Object>();
+	
+		while (stat.next()) 
+		{
+			object_list.add(BuscarValores.getValores(tabela, stat));
+		}
+		
+		if(connection != null) {
+
+			System.out.println("");
+			connection.close();
+		}
+		
+		ObjectMapper mapper = new ObjectMapper();
+		
+		String jsonInString = "";
+		
+		try {
+			jsonInString = mapper.writeValueAsString(object_list);
+		} catch (JsonProcessingException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+
+		return jsonInString;	
 	}
+
+}
+
 

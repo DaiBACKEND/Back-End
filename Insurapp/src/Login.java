@@ -41,12 +41,12 @@ public class Login extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		setAccessControlHeaders(response);
 		
-		String usernamel = request.getParameter("username");
+		String emaill = request.getParameter("username");
 		String password = request.getParameter("password");
 		try {
 			response.setContentType("application/json");
-			ConnectionBD.Login(usernamel, password);
-			if(ConnectionBD.Login(usernamel, password)) {
+			ConnectionBD.Login(emaill, password);
+			if(ConnectionBD.Login(emaill, password)) {
 				 HttpSession oldSession = request.getSession(false);
 		            if (oldSession != null) {
 		                oldSession.invalidate();
