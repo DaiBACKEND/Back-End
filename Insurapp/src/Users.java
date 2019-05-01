@@ -89,9 +89,10 @@ public class Users extends HttpServlet {
 		else {
 			
 			
-			String split_url[] = url.split("/");
+			//String split_url[] = url.split("/");
 			response.setContentType("application/json");
-			id = split_url[3];
+			id = request.getPathInfo().substring(1);
+			//id = split_url[3];
 			    try {
 			    	response.getWriter().append((ConnectionBD.UserId(tabela, id)));
 				} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e) {
@@ -100,35 +101,6 @@ public class Users extends HttpServlet {
 				}
 		}
 	
-				
-		
-    	
-    	
-    	/*if(request.getPathInfo() == null) {
-    		try {
-				String json = new Gson().toJson(ConnectionBD.SelectQuery("user"));
-				response.setContentType("application/json");
-				response.getWriter().write(json);
-			} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException
-					| JSONException e1) {
-				e1.printStackTrace();
-			} 
-    		}
-    		else {
-    			String id = "";
-    			String url = request.getRequestURI();
-    			String split_url[] = url.split("/");
-    			response.setContentType("application/json");
-    			id = split_url[3];
-    				    try {
-    				    	String json = new Gson().toJson(ConnectionBD.UserTipoID(id));
-    						response.getWriter().write(json);
-    					} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e) {
-    						// TODO Auto-generated catch block
-    						e.printStackTrace();
-    					}
-    				    
-        	}*/
     		}
 
 
