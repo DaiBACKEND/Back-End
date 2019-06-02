@@ -1,4 +1,9 @@
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.InputStream;
+import java.io.OutputStream;
 
+import javax.swing.ImageIcon;
 public class sinistro {
 
 	public String id;
@@ -15,14 +20,14 @@ public class sinistro {
 	
 	public String descricao;
 	
-	public String fotos;
+	public BufferedImage fotos;
 	
 	public String intervencao_autoridades;
 	
 	public String titulos;
 
 	
-	public sinistro(String id, String estado_id, String user_id, String contrato_apolice, String contrato_morada, String data_hora, String descricao, String fotos, String intervencao_autoridades, String titulos)
+	public sinistro(String id, String estado_id, String user_id, String contrato_apolice, String contrato_morada, String data_hora, String descricao, BufferedImage fotos, String intervencao_autoridades, String titulos)
 	{
 		this.id = id;
 		

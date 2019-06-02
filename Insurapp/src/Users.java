@@ -52,31 +52,11 @@ public class Users extends HttpServlet {
     	
     	String id = "";
     	String tabela = "user";
-		ArrayList<String> campos = new ArrayList<String>();
-		ArrayList<Object> valores_campos = new ArrayList<Object>();
-		String url = request.getRequestURI();
-		String route = url;
-		
-		Map<String, String> valores = new HashMap<String,String>();
-		boolean SearchByValue = BuscarURL.UrlContainsValues(url);
 		
 		if(request.getPathInfo() == null)
 		{
-			if (SearchByValue) {
-				valores = BuscarURL.UrlValues(url);
-			    route = valores.get("route");
-			    
-				for(int i = 0; i < valores.keySet().size(); i++)
-				{
-					if (!valores.keySet().toArray()[i].equals("route"))
-					{
-						campos.add((String) valores.keySet().toArray()[i]);
-						valores_campos.add(valores.values().toArray()[i]);
-					}
-				}
-			}
 			try {
-				if (!SearchByValue)
+				
 					response.getWriter().append((ConnectionBD.SelectQuery(tabela)));
 			} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e) {
 				// TODO Auto-generated catch block
@@ -88,11 +68,8 @@ public class Users extends HttpServlet {
 		}
 		else {
 			
-			
-			//String split_url[] = url.split("/");
 			response.setContentType("application/json");
 			id = request.getPathInfo().substring(1);
-			//id = split_url[3];
 			    try {
 			    	response.getWriter().append((ConnectionBD.UserId(tabela, id)));
 				} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e) {
@@ -170,6 +147,7 @@ public class Users extends HttpServlet {
 			id = valores1.get("id");
 			try {
 				 ConnectionBD.UpdateQuery(tabela, colunas, valores, id);
+				 response.getWriter().append("Valores atualizados!");
 			 } catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e) {
 			 
 			 e.printStackTrace();
@@ -178,6 +156,7 @@ public class Users extends HttpServlet {
 		else
 		{
 			System.out.println("Nenhum valor foi recebido!!");
+			response.getWriter().append("Nenhum valor foi recebido!!");
 		}
 	}
 
@@ -190,28 +169,25 @@ public class Users extends HttpServlet {
 		
 		String id = "";
 		String tabela = "user";
-		String url = request.getRequestURI();
-		String route = "/Insurapp/users/";
-		String split_url[] = url.split("/");
 		response.setContentType("application/json");
-		for (int i = 0; i < split_url.length; i++)
-		{
-			if (i < 2)
-				route += "/" + split_url[i+1];
-			else if (i == 3)
-				id = split_url[i];
+		id = request.getPathInfo().substring(1);
 			    try {
 					ConnectionBD.DeleteQuery(tabela, id);
+					response.getWriter().append("Utilizador eliminado!!");
 				} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 		}
-		}
+		//}
 
 	 private void setAccessControlHeaders(HttpServletResponse response) {
 	      response.setHeader("Access-Control-Allow-Origin", "*");
 	      response.setHeader("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE");
 	  }
 
+	 protected void doOptions(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		 response.setHeader("Access-Control-Allow-Origin", "*");
+	     response.setHeader("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE");
+		}
 }

@@ -4,10 +4,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-//import java.util.Map;
 
 
-//import org.json.JSONArray;
 import org.json.JSONException;
 
 import java.sql.PreparedStatement;
@@ -16,7 +14,6 @@ import java.sql.ResultSet;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mysql.jdbc.ResultSetMetaData;
-
 
 public class ConnectionBD {
 
@@ -146,39 +143,66 @@ public class ConnectionBD {
 		
 	}
 	//falta implementar sessions
-	public static boolean Login(String emaill, String passwordl) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException
+	public static String Login(String emaill, String passwordl) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException
 	{
 		Class.forName("com.mysql.jdbc.Driver").newInstance();
 		connection = DriverManager.getConnection(url, username, password);
 		
+		ArrayList<Object> object_list = new ArrayList<Object>();
 		String query3 ="SELECT password FROM user WHERE email = '" + emaill + "'";
-		String query2 ="SELECT * FROM user WHERE email = '" + emaill + "' AND password = '" + passwordl + "'";
+		 PreparedStatement sp1 = connection.prepareStatement(query3);
+		 ResultSet rs1 = sp1.executeQuery();
 				
-				System.out.println(query2);
-				System.out.println(query3);
-				PreparedStatement sp = connection.prepareStatement(query2);
-				PreparedStatement sp1 = connection.prepareStatement(query3);
-				 ResultSet rs = sp.executeQuery();
-				 ResultSet rs1 = sp1.executeQuery();
-				 rs.next();
-				 rs1.next();
-				 String pass = rs1.getString("password");
-				 String s= "";
-				 boolean b;
+		String jsonInString = "";
+		String s= "";
+	    ObjectMapper mapper = new ObjectMapper();
 				 
+				 if(!rs1.next()) {
+					 s = "Utilizador Errado!";
+					 try {
+						jsonInString = mapper.writeValueAsString(s);
+					} catch (JsonProcessingException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				 } 
+				 else {
+
+					 String pass = rs1.getString("password");
+					 rs1.next();
+					 String query2 ="SELECT id, tipo_id, email FROM user WHERE email = '" + emaill + "' AND password = '" + pass + "'";
+					 PreparedStatement sp = connection.prepareStatement(query2);
+					 ResultSet rs = sp.executeQuery();
+					 while (rs.next()) 
+						{
+							object_list.add(BuscarValores.getValores("logins", rs));
+						}
+					 
+				 if(connection != null) {
+
+						connection.close();
+					}
+	
 					 if(BCrypt.checkpw(passwordl, pass)) {
-						    b = true;
-						 	s = "Dados de Login corretos!";
-					 	    System.out.println(s);
-					     
+						 	try {
+								jsonInString = mapper.writeValueAsString(object_list);
+							} catch (JsonProcessingException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+					
 	                } 
 	                else {
-	                    b = false;
-	                	s = "Dados de Login incorretos!";
-	                    System.out.println(s);
+	                	s = "Password Errada!";
+	                	try {
+							jsonInString = mapper.writeValueAsString(s);
+						} catch (JsonProcessingException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 	                }
-				 
-				 return b;
+				 }
+				 return jsonInString;
 		
 	}
 	
@@ -222,6 +246,47 @@ public class ConnectionBD {
 		return jsonInString;	
 	}
 
+
+	
+	public static String View(String view, String dados) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException
+	{
+		Class.forName("com.mysql.jdbc.Driver").newInstance();
+
+		connection = DriverManager.getConnection(url, username, password);
+
+		String query = "SELECT * FROM " + view + "";
+		
+		PreparedStatement sp = connection.prepareStatement(query);
+
+		ResultSet stat = sp.executeQuery();
+
+		ArrayList<Object> object_list = new ArrayList<Object>();
+	
+		while (stat.next()) 
+		{
+			object_list.add(BuscarValores.getValores(dados, stat));
+		}
+		
+		if(connection != null) {
+
+			System.out.println("");
+			connection.close();
+		}
+		
+		ObjectMapper mapper = new ObjectMapper();
+		
+		String jsonInString = "";
+		
+		try {
+			jsonInString = mapper.writeValueAsString(object_list);
+		} catch (JsonProcessingException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+
+		return jsonInString;	
+	}
 }
+
 
 

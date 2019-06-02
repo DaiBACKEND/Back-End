@@ -1,7 +1,11 @@
 
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,6 +14,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
 
 /**
  * Servlet implementation class Login
@@ -41,23 +46,23 @@ public class Login extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		setAccessControlHeaders(response);
 		
-		String emaill = request.getParameter("username");
+		String emaill = request.getParameter("email");
 		String password = request.getParameter("password");
 		try {
 			response.setContentType("application/json");
-			ConnectionBD.Login(emaill, password);
-			if(ConnectionBD.Login(emaill, password)) {
-				 HttpSession oldSession = request.getSession(false);
-		            if (oldSession != null) {
-		                oldSession.invalidate();
-		            }
-		            HttpSession newSession = request.getSession(true);
-		            newSession.setMaxInactiveInterval(30*60);
-
-		            Cookie message = new Cookie("message", "Welcome");
-		            response.addCookie(message);
-		            message.setSecure(true);
-			}
+			if(ConnectionBD.Login(emaill, password).substring(0,1).contentEquals("[")) {
+				Cookie ck = new Cookie ("email", emaill);
+				ck.setMaxAge(30);
+				ck.setSecure(true);
+				response.addCookie(ck);
+			}		
+				try {
+						response.getWriter().append((ConnectionBD.Login(emaill, password)));
+				} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			
 			
 		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
