@@ -46,7 +46,7 @@ public class Users extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
-	//funciona, quando apenas /users mostra todos e quando /users/* mostra pelo id do tipo inserido no url
+	//quando o url apenas contem /users mostra todos e quando contem /users/* mostra pelo id do tipo inserido no url no *
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     	setAccessControlHeaders(response);
     	request.setCharacterEncoding("UTF-8");
@@ -54,31 +54,10 @@ public class Users extends HttpServlet {
     	
     	String id = "";
     	String tabela = "user";
-		ArrayList<String> campos = new ArrayList<String>();
-		ArrayList<Object> valores_campos = new ArrayList<Object>();
-		String url = request.getRequestURI();
-		String route = url;
-		
-		Map<String, String> valores = new HashMap<String,String>();
-		boolean SearchByValue = BuscarURL.UrlContainsValues(url);
-		
 		if(request.getPathInfo() == null)
 		{
-			if (SearchByValue) {
-				valores = BuscarURL.UrlValues(url);
-			    route = valores.get("route");
-			    
-				for(int i = 0; i < valores.keySet().size(); i++)
-				{
-					if (!valores.keySet().toArray()[i].equals("route"))
-					{
-						campos.add((String) valores.keySet().toArray()[i]);
-						valores_campos.add(valores.values().toArray()[i]);
-					}
-				}
-			}
+			
 			try {
-				if (!SearchByValue)
 					response.getWriter().append((ConnectionBD.SelectQuery(tabela)));
 			} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e) {
 				// TODO Auto-generated catch block
@@ -101,7 +80,6 @@ public class Users extends HttpServlet {
 		}
 	
     		}
-
 
 
 

@@ -1,4 +1,5 @@
 package com.server;
+import java.io.InputStream;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -14,6 +15,7 @@ public class BuscarValores {
 		ResultSetMetaData rsmd = (ResultSetMetaData) resultset.getMetaData();
 		
 		int columnsNumber = rsmd.getColumnCount();
+		InputStream binaryStream = null;
 		
 		for (int i = 1; i <= columnsNumber; i++)
 		{
@@ -48,6 +50,10 @@ public class BuscarValores {
 			
 		case "email":
 			o = new email(valores.get("emails"));
+			break;
+		
+		case "logins":
+			o = new logins(valores.get("id"), valores.get("tipo_id"), valores.get("email"));
 			break;
 		}
 		return o;

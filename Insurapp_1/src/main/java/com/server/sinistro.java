@@ -1,5 +1,7 @@
 package com.server;
 
+import java.io.InputStream;
+
 public class sinistro {
 
 	public String id;

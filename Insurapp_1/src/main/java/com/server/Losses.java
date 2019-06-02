@@ -1,6 +1,10 @@
 package com.server;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,6 +15,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
 
 import org.json.JSONException;
 
@@ -39,30 +44,9 @@ public class Losses extends HttpServlet {
 		setAccessControlHeaders(response);
     	request.setCharacterEncoding("UTF-8");
     	response.setContentType("application/json");
-
     	String tabela = "sinistro";
-		ArrayList<String> campos = new ArrayList<String>();
-		ArrayList<Object> valores_campos = new ArrayList<Object>();
-		String url = request.getRequestURI();
-		String route = url;
 		
-		Map<String, String> valores = new HashMap<String,String>();
-		boolean SearchByValue = BuscarURL.UrlContainsValues(url);
-			if (SearchByValue) {
-				valores = BuscarURL.UrlValues(url);
-			    route = valores.get("route");
-			    
-				for(int i = 0; i < valores.keySet().size(); i++)
-				{
-					if (!valores.keySet().toArray()[i].equals("route"))
-					{
-						campos.add((String) valores.keySet().toArray()[i]);
-						valores_campos.add(valores.values().toArray()[i]);
-					}
-				}
-			}
 			try {
-				if (!SearchByValue)
 					response.getWriter().append((ConnectionBD.SelectQuery(tabela)));
 			} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e) {
 				// TODO Auto-generated catch block
@@ -79,17 +63,113 @@ public class Losses extends HttpServlet {
 	//funciona 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		setAccessControlHeaders(response);
-    	request.setCharacterEncoding("UTF-8");
-		
-		String tabela = "sinistro";
-		String[] colunas = {"estado_id", "user_id", "contrato_apolice", "contrato_morada", "data_hora", "descricao", "fotos", "intervencao_autoridades", "titulo"};		
-		Object[] valores = {request.getParameter("estado_id"), request.getParameter("user_id"), request.getParameter("contrato_apolice"), request.getParameter("contrato_morada"), request.getParameter("data_hora"), request.getParameter("descricao"), request.getParameter("fotos"), request.getParameter("intervencao_autoridades"), request.getParameter("titulo")};
+		Connection connection = null;
+		String databaseName = "insurapp";
+		String url = "jdbc:mysql://35.195.53.224:3306/insurapp?autoReconnect=true&useSSL=false";
+		String username = "insurapp";
+		String password = "insurappdai";
 		try {
-			response.setContentType("application/json");
-			ConnectionBD.InsertQuery(tabela, colunas, valores);
-		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e) {
-			e.printStackTrace();
+			Class.forName("com.mysql.jdbc.Driver").newInstance();
+		} catch (InstantiationException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (IllegalAccessException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (ClassNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
 		}
+		try {
+			connection = DriverManager.getConnection(url, username, password);
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		Part file = request.getPart("fotos");
+        InputStream inputstream = null;
+        String estado_id = request.getParameter("estado_id");
+        String user_id = request.getParameter("user_id");
+        String contrato_apolice = request.getParameter("contrato_apolice");
+        String contrato_morada = request.getParameter("contrato_morada");
+        String data_hora = request.getParameter("data_hora");
+        String descricao = request.getParameter("descricao");
+        String intervencao_autoridades = request.getParameter("intervencao_autoridades");
+        String titulo = request.getParameter("titulo");
+        
+        if(file != null){
+        	inputstream = file.getInputStream();
+        }
+		String query ="INSERT INTO sinistro (estado_id, user_id, contrato_apolice, contrato_morada, data_hora, descricao, fotos, intervencao_autoridades, titulo) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		
+		PreparedStatement sp = null;
+		try {
+			sp = connection.prepareStatement(query);
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		try {
+			sp.setString(1, estado_id);
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		try {
+			sp.setString(2, user_id);
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		try {
+			sp.setString(3, contrato_apolice);
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		try {
+			sp.setString(4, contrato_morada);
+		} catch (SQLException e5) {
+			// TODO Auto-generated catch block
+			e5.printStackTrace();
+		}
+		try {
+			sp.setString(5, data_hora);
+		} catch (SQLException e4) {
+			// TODO Auto-generated catch block
+			e4.printStackTrace();
+		}
+		try {
+			sp.setString(6, descricao);
+		} catch (SQLException e3) {
+			// TODO Auto-generated catch block
+			e3.printStackTrace();
+		}
+		try {
+			sp.setBlob(7, inputstream);
+		} catch (SQLException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+		try {
+			sp.setString(8, intervencao_autoridades);
+		} catch (SQLException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+		try {
+			sp.setString(9, titulo);
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		try {
+			sp.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}				
+		response.setContentType("application/json");
 	}
 
 	/**

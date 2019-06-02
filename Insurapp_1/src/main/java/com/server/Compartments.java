@@ -40,33 +40,9 @@ public class Compartments extends HttpServlet {
 		setAccessControlHeaders(response);
     	request.setCharacterEncoding("UTF-8");
     	response.setContentType("application/json");
-    	
-
     	String tabela = "compartimento";
-		ArrayList<String> campos = new ArrayList<String>();
-		ArrayList<Object> valores_campos = new ArrayList<Object>();
-		String url = request.getRequestURI();
-		String route = url;
-		
-		Map<String, String> valores = new HashMap<String,String>();
-		boolean SearchByValue = BuscarURL.UrlContainsValues(url);
-		
-		
-			if (SearchByValue) {
-				valores = BuscarURL.UrlValues(url);
-			    route = valores.get("route");
-			    
-				for(int i = 0; i < valores.keySet().size(); i++)
-				{
-					if (!valores.keySet().toArray()[i].equals("route"))
-					{
-						campos.add((String) valores.keySet().toArray()[i]);
-						valores_campos.add(valores.values().toArray()[i]);
-					}
-				}
-			}
+
 			try {
-				if (!SearchByValue)
 					response.getWriter().append((ConnectionBD.SelectQuery(tabela)));
 			} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e) {
 				// TODO Auto-generated catch block
