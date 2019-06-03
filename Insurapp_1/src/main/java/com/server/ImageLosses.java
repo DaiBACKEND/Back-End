@@ -32,7 +32,9 @@ public class ImageLosses extends HttpServlet {
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * função de mostrar a imagem do sinistro pelo id inserido no url
 	 */
+    
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		final String dbURL = "jdbc:mysql://35.195.53.224:3306/insurapp?autoReconnect=true&useSSL=false";
 	    final String dbUser = "insurapp";
@@ -42,7 +44,6 @@ public class ImageLosses extends HttpServlet {
 	    Statement stmt = null;
 
 	    try {
-	        //DriverManager.registerDriver(new com.mysql.jdbc.Driver());
 	        Class.forName("com.mysql.jdbc.Driver");
 
 	        conn = (Connection) DriverManager.getConnection(dbURL, dbUser, dbPass);
@@ -52,25 +53,25 @@ public class ImageLosses extends HttpServlet {
 	        rs1 = stmt.executeQuery("select fotos from sinistro where id = " + id );
 
 	        if (rs1.next()) {
-	            byte[] imgData = rs1.getBytes("fotos");//Here....... r1.getBytes() extract byte data from resultSet 
+	            byte[] imgData = rs1.getBytes("fotos"); 
 	            response.setHeader("expires", "0");
 	            response.setContentType("image/jpg");
 
-	            OutputStream os = response.getOutputStream(); // output with the help of outputStream 
+	            OutputStream os = response.getOutputStream(); 
 	            os.write(imgData);
 	            os.flush();
 	            os.close();
 
 	        }
 	    } catch (SQLException ex) {
-	        // String message = "ERROR: " + ex.getMessage();
+	        
 	        ex.printStackTrace();
 	    } catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 	        if (conn != null) {
-	            // closes the database connection
+	            
 	            try {
 	                conn.close();
 	            } catch (SQLException ex) {

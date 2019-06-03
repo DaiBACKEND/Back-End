@@ -1,5 +1,7 @@
 package com.server;
 
+//construtor de um contrato
+
 public class contrato {
 
 	public String id;

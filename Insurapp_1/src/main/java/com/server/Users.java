@@ -1,23 +1,8 @@
 package com.server;
 
 import java.io.IOException;
-//import java.io.PrintWriter;
-//import java.sql.DriverManager;
-//import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Map;
-
-//import java.util.ArrayList;
-//import java.security.SecureRandom;
-import com.google.gson.Gson;
-//import com.google.gson.GsonBuilder;
-//import com.google.gson.JsonArray;
-//import com.google.gson.JsonObject;
-
-//import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -25,8 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.json.JSONException;
-//import com.mysql.jdbc.Connection;
-//import com.mysql.jdbc.PreparedStatement;
+
+
 
 /**
  * Servlet implementation class Users
@@ -45,8 +30,9 @@ public class Users extends HttpServlet {
    
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * quando o url apenas contem /users mostra todos e quando contem /users/* mostra pelo id do tipo inserido no url no *
 	 */
-	//quando o url apenas contem /users mostra todos e quando contem /users/* mostra pelo id do tipo inserido no url no *
+
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     	setAccessControlHeaders(response);
     	request.setCharacterEncoding("UTF-8");
@@ -85,8 +71,9 @@ public class Users extends HttpServlet {
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * função que cria um utilizador inserindo os dados necessários
 	 */
-	//funciona
+
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		setAccessControlHeaders(response);
     	request.setCharacterEncoding("UTF-8");
@@ -106,8 +93,9 @@ public class Users extends HttpServlet {
 
 	/**
 	 * @see HttpServlet#doPut(HttpServletRequest, HttpServletResponse)
+	 * função que dá update aos dados de um utilizador já existente
 	 */
-	//funciona
+	
 	protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		setAccessControlHeaders(response);
     	request.setCharacterEncoding("UTF-8");
@@ -161,8 +149,9 @@ public class Users extends HttpServlet {
 
 	/**
 	 * @see HttpServlet#doDelete(HttpServletRequest, HttpServletResponse)
+	 * função que elimina o user pelo id inserido no url
 	 */
-	//funciona
+	
 	protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		setAccessControlHeaders(response);
     	request.setCharacterEncoding("UTF-8");

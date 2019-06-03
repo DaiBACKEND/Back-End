@@ -3,8 +3,6 @@ package com.server;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.ServletException;
@@ -15,7 +13,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.json.JSONException;
 
-import com.google.gson.Gson;
 
 /**
  * Servlet implementation class Homes
@@ -34,8 +31,9 @@ public class Homes extends HttpServlet {
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * função de mostrar todas as casas presentes na base de dados
 	 */
-    //funciona
+
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		setAccessControlHeaders(response);
     	response.setContentType("application/json");
@@ -55,8 +53,9 @@ public class Homes extends HttpServlet {
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * função de criação de uma casa 
 	 */
-	//funciona
+
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		setAccessControlHeaders(response);
     	request.setCharacterEncoding("UTF-8");
@@ -75,8 +74,9 @@ public class Homes extends HttpServlet {
 
 	/**
 	 * @see HttpServlet#doPut(HttpServletRequest, HttpServletResponse)
+	 * função de update dos dados de uma casa
 	 */
-	//funciona
+
 	protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		setAccessControlHeaders(response);
     	request.setCharacterEncoding("UTF-8");
@@ -118,8 +118,9 @@ public class Homes extends HttpServlet {
 
 	/**
 	 * @see HttpServlet#doDelete(HttpServletRequest, HttpServletResponse)
+	 * função de eliminar uma casa pelo id inserido no url
 	 */
-	//funciona
+	
 	protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		setAccessControlHeaders(response);
     	request.setCharacterEncoding("UTF-8");

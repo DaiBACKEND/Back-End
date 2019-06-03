@@ -1,5 +1,7 @@
 package com.server;
 
+//construtor dos elementos da view emails
+
 public class email {
 	
 	public String emails;

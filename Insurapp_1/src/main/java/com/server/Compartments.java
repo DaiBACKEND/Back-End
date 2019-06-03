@@ -34,8 +34,9 @@ public class Compartments extends HttpServlet {
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * função para mostrar todos os compartimentos presentes na base de dados
 	 */
-    //funciona
+    
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		setAccessControlHeaders(response);
     	request.setCharacterEncoding("UTF-8");
@@ -56,8 +57,9 @@ public class Compartments extends HttpServlet {
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * função que cria compartimentos mediante os dados inseridos
 	 */
-	//funciona
+	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		setAccessControlHeaders(response);
     	request.setCharacterEncoding("UTF-8");
@@ -75,8 +77,9 @@ public class Compartments extends HttpServlet {
 
 	/**
 	 * @see HttpServlet#doPut(HttpServletRequest, HttpServletResponse)
+	 * função que dá update aos dados de um compartimento
 	 */
-	//funciona
+	
 	protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		setAccessControlHeaders(response);
     	request.setCharacterEncoding("UTF-8");
@@ -119,8 +122,9 @@ public class Compartments extends HttpServlet {
 
 	/**
 	 * @see HttpServlet#doDelete(HttpServletRequest, HttpServletResponse)
+	 * função de eliminar os compartimentos pelo id inserido no url
 	 */
-	//funciona
+	
 	protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		setAccessControlHeaders(response);
     	request.setCharacterEncoding("UTF-8");

@@ -1,5 +1,7 @@
 package com.server;
 
+//construtor de um sinistro
+
 public class sinistro {
 
 	public String id;

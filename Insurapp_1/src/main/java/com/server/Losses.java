@@ -18,11 +18,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
-import org.json.JSONException;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.Gson;
 import com.mysql.jdbc.ResultSetMetaData;
 
 /**
@@ -42,8 +40,9 @@ public class Losses extends HttpServlet {
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * função que mostra todos os sinistros da base de dados
 	 */
-  //funciona 
+  
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		setAccessControlHeaders(response);
     	response.setContentType("application/json");
@@ -95,9 +94,7 @@ public class Losses extends HttpServlet {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		//byte[] imageBytes;
-		//Image image;
-		//String tabela = "sinistro";
+		
 		ArrayList<Object> object_list = new ArrayList<Object>();
 		try {
 			while (stat.next()) 
@@ -110,9 +107,7 @@ public class Losses extends HttpServlet {
 						e.printStackTrace();
 					}
 				}
-				//imageBytes = stat.getBytes(7);
-				//InputStream in = new ByteArrayInputStream(imageBytes);
-				//BufferedImage bImageFromConvert = ImageIO.read(in);
+				
 				o = new sinistro(valores.get("id"), valores.get("estado_id"), valores.get("user_id"), valores.get("contrato_apolice"), valores.get("contrato_morada"), valores.get("data_hora"), valores.get("descricao") , valores.get("intervencao_autoridades"), valores.get("titulo"));
 				System.out.println(valores);
 				object_list.add(valores);
@@ -148,8 +143,9 @@ public class Losses extends HttpServlet {
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * função que cria sinistros na base de dados
 	 */
-	//funciona 
+	 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		setAccessControlHeaders(response);
 		Connection connection = null;
@@ -263,8 +259,9 @@ public class Losses extends HttpServlet {
 
 	/**
 	 * @see HttpServlet#doPut(HttpServletRequest, HttpServletResponse)
+	 * função que dá update de dados de um sinistro
 	 */
-	//funciona
+	
 	protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		setAccessControlHeaders(response);
     	request.setCharacterEncoding("UTF-8");
@@ -312,6 +309,7 @@ public class Losses extends HttpServlet {
 
 	/**
 	 * @see HttpServlet#doDelete(HttpServletRequest, HttpServletResponse)
+	 * função que dá delete a um sinistro pelo id inserido no url
 	 */
 	//funciona
 	protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

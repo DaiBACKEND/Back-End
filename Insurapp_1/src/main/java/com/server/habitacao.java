@@ -1,5 +1,7 @@
 package com.server;
 
+//construtor de uma habitação
+
 public class habitacao {
 
 	public String id;

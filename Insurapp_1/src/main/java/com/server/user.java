@@ -1,4 +1,7 @@
 package com.server;
+
+//construtor de um user
+
 public class user
 {
 	public String id;
@@ -28,6 +31,7 @@ public class user
 	public String pais;
 	
 	public String codigo_postal;
+	
 	
 	public user(String id, String tipo_id, String nome, String email, String password, String morada, String contacto, String nif, String sexo, String data_nascimento, String numero_contrato, String cidade, String pais, String codigo_postal)
 	{

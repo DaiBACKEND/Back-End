@@ -1,5 +1,7 @@
 package com.server;
 
+//construtor de um "login"
+
 public class logins {
 		public String id;
 		

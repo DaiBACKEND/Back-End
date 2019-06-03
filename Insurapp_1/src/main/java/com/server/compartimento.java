@@ -1,5 +1,7 @@
 package com.server;
 
+//construtor de um compartimento
+
 public class compartimento {
 	
 	public String id;

@@ -1,5 +1,7 @@
 package com.server;
 
+//construtor de um compartimento de um user
+
 public class user_compartimento 
 {
 

@@ -3,8 +3,6 @@ package com.server;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.ServletException;
@@ -15,7 +13,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.json.JSONException;
 
-import com.google.gson.Gson;
 
 /**
  * Servlet implementation class Contracts
@@ -34,8 +31,9 @@ public class Contracts extends HttpServlet {
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * função de mostrar todos os contratos da base de dados
 	 */
-  //funciona 
+    
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		setAccessControlHeaders(response);
     	request.setCharacterEncoding("UTF-8");
@@ -55,8 +53,9 @@ public class Contracts extends HttpServlet {
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * função de criação de um contrato mediantes os dados inseridos
 	 */
-	//funciona 
+
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		setAccessControlHeaders(response);
     	request.setCharacterEncoding("UTF-8");
@@ -73,8 +72,9 @@ public class Contracts extends HttpServlet {
 	}
 	/**
 	 * @see HttpServlet#doPut(HttpServletRequest, HttpServletResponse)
+	 * função de update dos dados de um contrato já existente
 	 */
-	//funciona
+
 	protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		setAccessControlHeaders(response);
     	request.setCharacterEncoding("UTF-8");
@@ -119,8 +119,9 @@ public class Contracts extends HttpServlet {
 
 	/**
 	 * @see HttpServlet#doDelete(HttpServletRequest, HttpServletResponse)
+	 * função de eliminação de um contrato com o id inserido no url
 	 */
-	//funciona
+	
 	protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		setAccessControlHeaders(response);
     	request.setCharacterEncoding("UTF-8");
