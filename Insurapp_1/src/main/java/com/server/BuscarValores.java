@@ -28,9 +28,9 @@ public class BuscarValores {
 			o = new user(valores.get("id"), valores.get("tipo_id"), valores.get("nome"), valores.get("email"), valores.get("password"), valores.get("morada"), valores.get("contacto"), valores.get("nif"), valores.get("sexo"), valores.get("data_nascimento"), valores.get("numero_contrato"), valores.get("cidade"), valores.get("pais"), valores.get("codigo_postal"));
 			break;
 			
-		case "sinistro":
-			o = new sinistro(valores.get("id"), valores.get("estado_id"), valores.get("user_id"), valores.get("contrato_apolice"), valores.get("contrato_morada"), valores.get("data_hora"), valores.get("descricao"), valores.get("fotos"), valores.get("intervencao_autoridades"), valores.get("titulo"));
-			break;
+		//case "sinistro":
+			//o = new sinistro(valores.get("id"), valores.get("estado_id"), valores.get("user_id"), valores.get("contrato_apolice"), valores.get("contrato_morada"), valores.get("data_hora"), valores.get("descricao"), valores.get("fotos"), valores.get("intervencao_autoridades"), valores.get("titulo"));
+			//break;
 			
 		case "habitacao":
 			o = new habitacao(valores.get("id"), valores.get("user_id"), valores.get("nome"));

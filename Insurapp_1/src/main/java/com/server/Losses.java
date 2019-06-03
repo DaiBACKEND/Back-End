@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,7 +20,10 @@ import javax.servlet.http.Part;
 
 import org.json.JSONException;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
+import com.mysql.jdbc.ResultSetMetaData;
 
 /**
  * Servlet implementation class Losses
@@ -42,19 +46,104 @@ public class Losses extends HttpServlet {
   //funciona 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		setAccessControlHeaders(response);
-    	request.setCharacterEncoding("UTF-8");
     	response.setContentType("application/json");
-    	String tabela = "sinistro";
+		Connection connection = null;
+    	String databaseName = "insurapp";
+    	String url = "jdbc:mysql://35.195.53.224:3306/insurapp?autoReconnect=true&useSSL=false";
+    	String username = "insurapp";
+    	String password = "insurappdai";
+    	Object o = new Object();
+		int columnsNumber = 0;
+		ResultSet stat = null;
 		
+		Map<String,String> valores = new HashMap<String, String>();
+		
+		try {
+			Class.forName("com.mysql.jdbc.Driver").newInstance();
+		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+		try {
+			connection = DriverManager.getConnection(url, username, password);
+		} catch (SQLException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+		PreparedStatement sp = null;
+		try {
+			sp = connection.prepareStatement("SELECT id, estado_id, user_id, contrato_apolice, contrato_morada, data_hora, descricao ,intervencao_autoridades, titulo FROM sinistro");
+		} catch (SQLException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+		try {
+			ResultSetMetaData rsmd = (ResultSetMetaData) sp.getMetaData();
+		} catch (SQLException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+		try {
+			stat = sp.executeQuery();
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		try {
+			columnsNumber =  sp.getMetaData().getColumnCount();
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		//byte[] imageBytes;
+		//Image image;
+		//String tabela = "sinistro";
+		ArrayList<Object> object_list = new ArrayList<Object>();
+		try {
+			while (stat.next()) 
+			{
+				for (int i = 1; i <= columnsNumber; i++)
+				{
+					try {
+						valores.put(sp.getMetaData().getColumnName(i),  stat.getString(i));
+					} catch (SQLException e) {
+						e.printStackTrace();
+					}
+				}
+				//imageBytes = stat.getBytes(7);
+				//InputStream in = new ByteArrayInputStream(imageBytes);
+				//BufferedImage bImageFromConvert = ImageIO.read(in);
+				o = new sinistro(valores.get("id"), valores.get("estado_id"), valores.get("user_id"), valores.get("contrato_apolice"), valores.get("contrato_morada"), valores.get("data_hora"), valores.get("descricao") , valores.get("intervencao_autoridades"), valores.get("titulo"));
+				System.out.println(valores);
+				object_list.add(valores);
+			}
+		} catch (SQLException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+		
+		if(connection != null) {
+			
 			try {
-					response.getWriter().append((ConnectionBD.SelectQuery(tabela)));
-			} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (JSONException e) {
+				connection.close();
+			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+		}
+		
+		ObjectMapper mapper = new ObjectMapper();
+		
+		String jsonInString = "";
+		
+		try {
+			jsonInString = mapper.writeValueAsString(object_list);
+		} catch (JsonProcessingException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+
+		response.getWriter().append(jsonInString);
 		}
 
 	/**

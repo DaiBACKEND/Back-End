@@ -1,7 +1,5 @@
 package com.server;
 
-import java.io.InputStream;
-
 public class sinistro {
 
 	public String id;
@@ -18,14 +16,12 @@ public class sinistro {
 	
 	public String descricao;
 	
-	public String fotos;
-	
 	public String intervencao_autoridades;
 	
 	public String titulos;
 
 	
-	public sinistro(String id, String estado_id, String user_id, String contrato_apolice, String contrato_morada, String data_hora, String descricao, String fotos, String intervencao_autoridades, String titulos)
+	public sinistro(String id, String estado_id, String user_id, String contrato_apolice, String contrato_morada, String data_hora, String descricao, String intervencao_autoridades, String titulos)
 	{
 		this.id = id;
 		
@@ -40,8 +36,6 @@ public class sinistro {
 		this.data_hora = data_hora;
 	
 		this.descricao = descricao;
-		
-		this.fotos = fotos;
 		
 		this.intervencao_autoridades = intervencao_autoridades;
 		
