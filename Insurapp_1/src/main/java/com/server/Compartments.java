@@ -17,14 +17,19 @@ import org.json.JSONException;
 
 import com.google.gson.Gson;
 
+// TODO: Auto-generated Javadoc
 /**
- * Servlet implementation class Compartments
+ * Servlet implementation class Compartments.
  */
 @WebServlet({ "/compartments", "/compartments/*" })
 public class Compartments extends HttpServlet {
+	
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
        
     /**
+     * Instantiates a new compartments.
+     *
      * @see HttpServlet#HttpServlet()
      */
     public Compartments() {
@@ -33,6 +38,12 @@ public class Compartments extends HttpServlet {
     }
 
 	/**
+	 * Do get.
+	 *
+	 * @param request
+	 * @param response
+	 * @throws ServletException
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 * função para mostrar todos os compartimentos presentes na base de dados
 	 */
@@ -56,6 +67,12 @@ public class Compartments extends HttpServlet {
 
 
 	/**
+	 * Do post.
+	 *
+	 * @param request
+	 * @param response
+	 * @throws ServletException
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 * função que cria compartimentos mediante os dados inseridos
 	 */
@@ -76,6 +93,12 @@ public class Compartments extends HttpServlet {
 	}
 
 	/**
+	 * Do put.
+	 *
+	 * @param request
+	 * @param response
+	 * @throws ServletException
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 * @see HttpServlet#doPut(HttpServletRequest, HttpServletResponse)
 	 * função que dá update aos dados de um compartimento
 	 */
@@ -89,12 +112,13 @@ public class Compartments extends HttpServlet {
 		String colunas[] = {};
 		String valores[]= {};
 		String url = request.getRequestURI();
+		Map<String, String> valores1 = BuscarURL.UrlValues(url);
+	    String route = valores1.get("route");
 		
 		
 		if (BuscarURL.UrlContainsValues(url))
 		{
-			Map<String, String> valores1 = BuscarURL.UrlValues(url);
-		    String route = valores1.get("route");
+			
 		    
 			String habitacao_id = valores1.get("habitacao_id");
 			String descricao = valores1.get("descricao");
@@ -121,6 +145,12 @@ public class Compartments extends HttpServlet {
 	}
 
 	/**
+	 * Do delete.
+	 *
+	 * @param request
+	 * @param response
+	 * @throws ServletException
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 * @see HttpServlet#doDelete(HttpServletRequest, HttpServletResponse)
 	 * função de eliminar os compartimentos pelo id inserido no url
 	 */
@@ -141,11 +171,25 @@ public class Compartments extends HttpServlet {
 		}
 
 
-	 private void setAccessControlHeaders(HttpServletResponse response) {
+	 /**
+ 	 * Sets the access control headers.
+ 	 *
+ 	 * @param response the new access control headers
+ 	 */
+ 	private void setAccessControlHeaders(HttpServletResponse response) {
 	      response.setHeader("Access-Control-Allow-Origin", "*");
 	      response.setHeader("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE");
 	  }
-	 protected void doOptions(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	 
+ 	/**
+ 	 * Do options.
+ 	 *
+ 	 * @param request
+ 	 * @param response
+ 	 * @throws ServletException
+ 	 * @throws IOException Signals that an I/O exception has occurred.
+ 	 */
+ 	protected void doOptions(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		 response.setHeader("Access-Control-Allow-Origin", "*");
 	     response.setHeader("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE");
 		}

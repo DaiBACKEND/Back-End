@@ -6,8 +6,20 @@ import java.util.HashMap;
 import java.util.Map;
 import com.mysql.jdbc.ResultSetMetaData;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class BuscarValores.
+ */
 public class BuscarValores {
 
+	/**
+	 * Gets the valores.
+	 *
+	 * @param tabela 
+	 * @param resultset 
+	 * @return valores
+	 * @throws SQLException
+	 */
 	public static Object getValores(String tabela, ResultSet resultset) throws SQLException
 	{
 		Object o = new Object();
@@ -25,6 +37,10 @@ public class BuscarValores {
 		{
 		case "user":
 			o = new user(valores.get("id"), valores.get("tipo_id"), valores.get("nome"), valores.get("email"), valores.get("password"), valores.get("morada"), valores.get("contacto"), valores.get("nif"), valores.get("sexo"), valores.get("data_nascimento"), valores.get("numero_contrato"), valores.get("cidade"), valores.get("pais"), valores.get("codigo_postal"));
+			break;
+			
+		case "sinistro":
+			o = new sinistro(valores.get("id"), valores.get("descricao"), valores.get("titulo"));
 			break;
 			
 		case "habitacao":

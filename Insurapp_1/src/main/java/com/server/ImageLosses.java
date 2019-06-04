@@ -15,14 +15,19 @@ import javax.servlet.http.HttpServletResponse;
 import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.Statement;
 
+// TODO: Auto-generated Javadoc
 /**
- * Servlet implementation class ImageLosses
+ * Servlet implementation class ImageLosses.
  */
 @WebServlet("/imaloss/*")
 public class ImageLosses extends HttpServlet {
+	
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
        
     /**
+     * Instantiates a new image losses.
+     *
      * @see HttpServlet#HttpServlet()
      */
     public ImageLosses() {
@@ -31,6 +36,12 @@ public class ImageLosses extends HttpServlet {
     }
 
 	/**
+	 * Do get.
+	 *
+	 * @param request 
+	 * @param response 
+	 * @throws ServletException 
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 * função de mostrar a imagem do sinistro pelo id inserido no url
 	 */

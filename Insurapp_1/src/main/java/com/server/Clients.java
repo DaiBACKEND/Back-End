@@ -10,14 +10,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 
+// TODO: Auto-generated Javadoc
 /**
- * Servlet implementation class Clients
+ * Servlet implementation class Clients.
  */
 @WebServlet("/clients")
 public class Clients extends HttpServlet {
+	
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
        
     /**
+     * Instantiates a new clients.
+     *
      * @see HttpServlet#HttpServlet()
      */
     public Clients() {
@@ -26,6 +31,12 @@ public class Clients extends HttpServlet {
     }
 
 	/**
+	 * Do get.
+	 *
+	 * @param request
+	 * @param response
+	 * @throws ServletException
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 * função de mostrar a view com todos os clientes da base de dados
 	 */
@@ -44,11 +55,24 @@ public class Clients extends HttpServlet {
 			}
 		}
 	
+	/**
+	 * Sets the access control headers.
+	 *
+	 * @param response the new access control headers
+	 */
 	private void setAccessControlHeaders(HttpServletResponse response) {
 	      response.setHeader("Access-Control-Allow-Origin", "*");
 	      response.setHeader("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE");
 	  }
 
+	/**
+	 * Do options.
+	 *
+	 * @param request
+	 * @param response
+	 * @throws ServletException
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	protected void doOptions(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		 response.setHeader("Access-Control-Allow-Origin", "*");
 	     response.setHeader("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE");

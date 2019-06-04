@@ -14,14 +14,19 @@ import javax.servlet.http.HttpServletResponse;
 import org.json.JSONException;
 
 
+// TODO: Auto-generated Javadoc
 /**
- * Servlet implementation class Homes
+ * Servlet implementation class Homes.
  */
 @WebServlet({ "/homes", "/homes/*" })
 public class Homes extends HttpServlet {
+	
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
        
     /**
+     * Instantiates a new homes.
+     *
      * @see HttpServlet#HttpServlet()
      */
     public Homes() {
@@ -30,6 +35,12 @@ public class Homes extends HttpServlet {
     }
 
 	/**
+	 * Do get.
+	 *
+	 * @param request 
+	 * @param response 
+	 * @throws ServletException 
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 * função de mostrar todas as casas presentes na base de dados
 	 */
@@ -52,8 +63,14 @@ public class Homes extends HttpServlet {
 	}
 
 	/**
+	 * Do post.
+	 *
+	 * @param request 
+	 * @param response 
+	 * @throws ServletException 
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 * função de criação de uma casa 
+	 * função de criação de uma casa
 	 */
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -73,6 +90,12 @@ public class Homes extends HttpServlet {
 	}
 
 	/**
+	 * Do put.
+	 *
+	 * @param request 
+	 * @param response 
+	 * @throws ServletException 
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 * @see HttpServlet#doPut(HttpServletRequest, HttpServletResponse)
 	 * função de update dos dados de uma casa
 	 */
@@ -86,13 +109,13 @@ public class Homes extends HttpServlet {
 				String colunas[] = {};
 				String valores[]= {};
 				String url = request.getRequestURI();
+				Map<String, String> valores1 = BuscarURL.UrlValues(url);
+			    String route = valores1.get("route");
 				
 				
 				if (BuscarURL.UrlContainsValues(url))
 				{
-					Map<String, String> valores1 = BuscarURL.UrlValues(url);
-				    String route = valores1.get("route");
-				    
+					
 					String user_id = valores1.get("user_id");
 					String nome = valores1.get("nome");
 					
@@ -117,6 +140,12 @@ public class Homes extends HttpServlet {
 	}
 
 	/**
+	 * Do delete.
+	 *
+	 * @param request 
+	 * @param response 
+	 * @throws ServletException 
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 * @see HttpServlet#doDelete(HttpServletRequest, HttpServletResponse)
 	 * função de eliminar uma casa pelo id inserido no url
 	 */
@@ -136,11 +165,25 @@ public class Homes extends HttpServlet {
 				}
 		}
 
-	 private void setAccessControlHeaders(HttpServletResponse response) {
+	 /**
+ 	 * Sets the access control headers.
+ 	 *
+ 	 * @param response the new access control headers
+ 	 */
+ 	private void setAccessControlHeaders(HttpServletResponse response) {
 	      response.setHeader("Access-Control-Allow-Origin", "*");
 	      response.setHeader("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE");
 	  }
-	 protected void doOptions(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	 
+ 	/**
+ 	 * Do options.
+ 	 *
+ 	 * @param request 
+ 	 * @param response 
+ 	 * @throws ServletException
+ 	 * @throws IOException Signals that an I/O exception has occurred.
+ 	 */
+ 	protected void doOptions(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		 response.setHeader("Access-Control-Allow-Origin", "*");
 	     response.setHeader("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE");
 		}

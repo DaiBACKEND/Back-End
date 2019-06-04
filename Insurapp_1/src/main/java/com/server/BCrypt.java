@@ -4,14 +4,24 @@ import java.io.UnsupportedEncodingException;
 
 import java.security.SecureRandom;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class BCrypt.
+ */
 public class BCrypt {
+	
+	/** The Constant GENSALT_DEFAULT_LOG2_ROUNDS. */
 	// BCrypt parameters
 	private static final int GENSALT_DEFAULT_LOG2_ROUNDS = 10;
+	
+	/** The Constant BCRYPT_SALT_LEN. */
 	private static final int BCRYPT_SALT_LEN = 16;
 
+	/** The Constant BLOWFISH_NUM_ROUNDS. */
 	// Blowfish parameters
 	private static final int BLOWFISH_NUM_ROUNDS = 16;
 
+	/** The Constant P_orig. */
 	// Initial contents of key schedule
 	private static final int P_orig[] = {
 		0x243f6a88, 0x85a308d3, 0x13198a2e, 0x03707344,
@@ -20,6 +30,8 @@ public class BCrypt {
 		0xc0ac29b7, 0xc97c50dd, 0x3f84d5b5, 0xb5470917,
 		0x9216d5d9, 0x8979fb1b
 	};
+	
+	/** The Constant S_orig. */
 	private static final int S_orig[] = {
 		0xd1310ba6, 0x98dfb5ac, 0x2ffd72db, 0xd01adfb7,
 		0xb8e1afed, 0x6a267e96, 0xba7c9045, 0xf12c7f99,
@@ -279,12 +291,14 @@ public class BCrypt {
 		0xb74e6132, 0xce77e25b, 0x578fdfe3, 0x3ac372e6
 	};
 
+	/** The Constant bf_crypt_ciphertext. */
 	// bcrypt IV: "OrpheanBeholderScryDoubt"
 	static private final int bf_crypt_ciphertext[] = {
 		0x4f727068, 0x65616e42, 0x65686f6c,
 		0x64657253, 0x63727944, 0x6f756274
 	};
 
+	/** The Constant base64_code. */
 	// Table for Base64 encoding
 	static private final char base64_code[] = {
 		'.', '/', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J',
@@ -295,6 +309,7 @@ public class BCrypt {
 		'6', '7', '8', '9'
 	};
 
+	/** The Constant index_64. */
 	// Table for Base64 decoding
 	static private final byte index_64[] = {
 		-1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
@@ -312,8 +327,11 @@ public class BCrypt {
 		51, 52, 53, -1, -1, -1, -1, -1
 	};
 
+	/** The p. */
 	// Expanded Blowfish key
 	private int P[];
+	
+	/** The s. */
 	private int S[];
 
 	/**
@@ -361,9 +379,10 @@ public class BCrypt {
 
 	/**
 	 * Look up the 3 bits base64-encoded by the specified character,
-	 * range-checking againt conversion table
-	 * @param x	the base64-encoded value
-	 * @return	the decoded value of x
+	 * range-checking againt conversion table.
+	 *
+	 * @param x the base64-encoded value
+	 * @return the decoded value of x
 	 */
 	private static byte char64(char x) {
 		if ((int)x < 0 || (int)x > index_64.length)
@@ -423,9 +442,10 @@ public class BCrypt {
 
 	/**
 	 * Blowfish encipher a single 64-bit block encoded as
-	 * two 32-bit halves
-	 * @param lr	an array containing the two 32-bit half blocks
-	 * @param off	the position in the array of the blocks
+	 * two 32-bit halves.
+	 *
+	 * @param lr an array containing the two 32-bit half blocks
+	 * @param off the position in the array of the blocks
 	 */
 	private final void encipher(int lr[], int off) {
 		int i, n, l = lr[off], r = lr[off + 1];
@@ -451,11 +471,12 @@ public class BCrypt {
 	}
 
 	/**
-	 * Cycically extract a word of key material
-	 * @param data	the string to extract the data from
-	 * @param offp	a "pointer" (as a one-entry array) to the
+	 * Cycically extract a word of key material.
+	 *
+	 * @param data the string to extract the data from
+	 * @param offp a "pointer" (as a one-entry array) to the
 	 * current offset into data
-	 * @return	the next word of material from data
+	 * @return the next word of material from data
 	 */
 	private static int streamtoword(byte data[], int offp[]) {
 		int i;
@@ -472,7 +493,7 @@ public class BCrypt {
 	}
 
 	/**
-	 * Initialise the Blowfish key schedule
+	 * Initialise the Blowfish key schedule.
 	 */
 	private void init_key() {
 		P = (int[])P_orig.clone();
@@ -480,8 +501,9 @@ public class BCrypt {
 	}
 
 	/**
-	 * Key the Blowfish cipher
-	 * @param key	an array containing the key
+	 * Key the Blowfish cipher.
+	 *
+	 * @param key an array containing the key
 	 */
 	private void key(byte key[]) {
 		int i;
@@ -540,12 +562,13 @@ public class BCrypt {
 
 	/**
 	 * Perform the central password hashing step in the
-	 * bcrypt scheme
-	 * @param password	the password to hash
-	 * @param salt	the binary salt to hash with the password
-	 * @param log_rounds	the binary logarithm of the number
+	 * bcrypt scheme.
+	 *
+	 * @param password the password to hash
+	 * @param salt the binary salt to hash with the password
+	 * @param log_rounds the binary logarithm of the number
 	 * of rounds of hashing to apply
-	 * @return	an array containing the binary hashed password
+	 * @return an array containing the binary hashed password
 	 */
 	private byte[] crypt_raw(byte password[], byte salt[], int log_rounds) {
 		int rounds, i, j;
@@ -582,11 +605,12 @@ public class BCrypt {
 	}
 
 	/**
-	 * Hash a password using the OpenBSD bcrypt scheme
-	 * @param password	the password to hash
-	 * @param salt	the salt to hash with (perhaps generated
+	 * Hash a password using the OpenBSD bcrypt scheme.
+	 *
+	 * @param password the password to hash
+	 * @param salt the salt to hash with (perhaps generated
 	 * using BCrypt.gensalt)
-	 * @return	the hashed password
+	 * @return the hashed password
 	 */
 	public static String hashpw(String password, String salt) {
 		BCrypt B;
@@ -684,10 +708,11 @@ public class BCrypt {
 
 	/**
 	 * Check that a plaintext password matches a previously hashed
-	 * one
-	 * @param plaintext	the plaintext password to verify
-	 * @param hashed	the previously-hashed password
-	 * @return	true if the passwords match, false otherwise
+	 * one.
+	 *
+	 * @param plaintext the plaintext password to verify
+	 * @param hashed the previously-hashed password
+	 * @return true if the passwords match, false otherwise
 	 */
 	public static boolean checkpw(String plaintext, String hashed) {
 		return (hashed.compareTo(hashpw(plaintext, hashed)) == 0);

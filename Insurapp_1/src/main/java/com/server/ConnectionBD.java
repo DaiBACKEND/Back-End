@@ -19,16 +19,40 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mysql.jdbc.ResultSetMetaData;
 
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class ConnectionBD.
+ */
 public class ConnectionBD {
 
+	/** The connection. */
 	static Connection connection = null;
+	
+	/** The database name. */
 	static String databaseName = "insurapp";
+	
+	/** The url. */
 	static String url = "jdbc:mysql://35.195.53.224:3306/insurapp?autoReconnect=true&useSSL=false";
 	
+	/** The username. */
 	static String username = "insurapp";
+	
+	/** The password. */
 	static String password = "insurappdai";
 	
-	//código para buscar todos os dados à tabela escolhida e transforma em json
+	/**
+	 * Select query.
+	 *
+	 * @param tabela 
+	 * @return string
+	 * @throws SQLException 
+	 * @throws InstantiationException
+	 * @throws IllegalAccessException
+	 * @throws ClassNotFoundException 
+	 * @throws JSONException
+	 * código para buscar todos os dados à tabela escolhida e transforma em json 
+	 */
+	
 	public static String SelectQuery(String tabela) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException, JSONException
 	{
 		Class.forName("com.mysql.jdbc.Driver").newInstance();
@@ -68,7 +92,19 @@ public class ConnectionBD {
 		  }
 
 		
-	//código para inserir os dados na tabela escolhida com os dados inseridos
+	/**
+	 * Insert query.
+	 *
+	 * @param tabela 
+	 * @param colunas 
+	 * @param valores 
+	 * @throws SQLException 
+	 * @throws InstantiationException 
+	 * @throws IllegalAccessException 
+	 * @throws ClassNotFoundException
+	 * código para inserir os dados na tabela escolhida com os dados inseridos
+	 */
+	
 	public static void InsertQuery(String tabela, String[] colunas, Object[] valores) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException
 	{
 		Class.forName("com.mysql.jdbc.Driver").newInstance();
@@ -110,7 +146,20 @@ public class ConnectionBD {
 		sp.executeUpdate();		
 	}
 	
-	//código para dar update aos dados de uma tabela escolhida
+	/**
+	 * Update query.
+	 *
+	 * @param tabela 
+	 * @param colunas 
+	 * @param valores 
+	 * @param id 
+	 * @throws SQLException 
+	 * @throws InstantiationException 
+	 * @throws IllegalAccessException 
+	 * @throws ClassNotFoundException 
+	 * código para dar update aos dados de uma tabela escolhida
+	 */
+	
 	public static void UpdateQuery(String tabela, String[] colunas, Object[] valores, String id) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException
 	{
 		Class.forName("com.mysql.jdbc.Driver").newInstance();
@@ -136,7 +185,18 @@ public class ConnectionBD {
 		
 	}
 	
-	//código para eliminar uma linha da tabela escolhida usando o id
+	/**
+	 * Delete query.
+	 *
+	 * @param tabela 
+	 * @param id 
+	 * @throws SQLException 
+	 * @throws InstantiationException 
+	 * @throws IllegalAccessException 
+	 * @throws ClassNotFoundException
+	 * código para eliminar uma linha da tabela escolhida usando o id 
+	 */
+	
 	public static void DeleteQuery(String tabela, String id) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException
 	{
 		Class.forName("com.mysql.jdbc.Driver").newInstance();
@@ -151,7 +211,19 @@ public class ConnectionBD {
 		
 	}
 	
-	//código que procura se o utilizador existe e se a sua password está correta
+	/**
+	 * Login.
+	 *
+	 * @param emaill 
+	 * @param passwordl 
+	 * @return string
+	 * @throws SQLException 
+	 * @throws InstantiationException
+	 * @throws IllegalAccessException 
+	 * @throws ClassNotFoundException 
+	 * código que procura se o utilizador existe e se a sua password está correta
+	 */
+	
 	public static String Login(String emaill, String passwordl) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException
 	{
 		
@@ -216,6 +288,17 @@ public class ConnectionBD {
 		
 	}
 	
+	/**
+	 * User id.
+	 *
+	 * @param tabela
+	 * @param id
+	 * @return string
+	 * @throws SQLException
+	 * @throws InstantiationException
+	 * @throws IllegalAccessException 
+	 * @throws ClassNotFoundException
+	 */
 	//código para procurar os utilizadores pelo seu id
 	public static String UserId(String tabela, String id) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException
 	{
@@ -258,6 +341,17 @@ public class ConnectionBD {
 	}
 	
 	
+	/**
+	 * View.
+	 *
+	 * @param view the view
+	 * @param dados the dados
+	 * @return the string
+	 * @throws SQLException the SQL exception
+	 * @throws InstantiationException the instantiation exception
+	 * @throws IllegalAccessException the illegal access exception
+	 * @throws ClassNotFoundException the class not found exception
+	 */
 	//código para mostrar a view escolhida
 	public static String View(String view, String dados) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException
 	{

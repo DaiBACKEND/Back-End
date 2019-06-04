@@ -13,14 +13,19 @@ import org.json.JSONException;
 
 
 
+// TODO: Auto-generated Javadoc
 /**
- * Servlet implementation class Users
+ * Servlet implementation class Users.
  */
 @WebServlet({ "/users", "/users/*"})
 public class Users extends HttpServlet {
+	
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
        
     /**
+     * Instantiates a new users.
+     *
      * @see HttpServlet#HttpServlet()
      */
     public Users() {
@@ -29,8 +34,14 @@ public class Users extends HttpServlet {
     }
    
 	/**
+	 * Do get.
+	 *
+	 * @param request
+	 * @param response
+	 * @throws ServletException
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 * quando o url apenas contem /users mostra todos e quando contem /users/* mostra pelo id do tipo inserido no url no *
+	 * quando o url apenas contem /users mostra todos e quando contem /users/* mostra pelo id do tipo inserido no url
 	 */
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -70,6 +81,12 @@ public class Users extends HttpServlet {
 
 
 	/**
+	 * Do post.
+	 *
+	 * @param request
+	 * @param response
+	 * @throws ServletException 
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 * função que cria um utilizador inserindo os dados necessários
 	 */
@@ -92,6 +109,12 @@ public class Users extends HttpServlet {
 	}
 
 	/**
+	 * Do put.
+	 *
+	 * @param request
+	 * @param response
+	 * @throws ServletException
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 * @see HttpServlet#doPut(HttpServletRequest, HttpServletResponse)
 	 * função que dá update aos dados de um utilizador já existente
 	 */
@@ -105,12 +128,12 @@ public class Users extends HttpServlet {
 		String colunas[] = {};
 		String valores[]= {};
 		String url = request.getRequestURI();
-		
+		Map<String, String> valores1 = BuscarURL.UrlValues(url);
+	    String route = valores1.get("route");
 		
 		if (BuscarURL.UrlContainsValues(url))
 		{
-			Map<String, String> valores1 = BuscarURL.UrlValues(url);
-		    String route = valores1.get("route");
+
 		    
 			String tipo_id = valores1.get("tipo_id");
 			String nome = valores1.get("nome");
@@ -148,6 +171,12 @@ public class Users extends HttpServlet {
 	}
 
 	/**
+	 * Do delete.
+	 *
+	 * @param request 
+	 * @param response 
+	 * @throws ServletException 
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 * @see HttpServlet#doDelete(HttpServletRequest, HttpServletResponse)
 	 * função que elimina o user pelo id inserido no url
 	 */
@@ -169,12 +198,25 @@ public class Users extends HttpServlet {
 		}
 		//}
 
-	 private void setAccessControlHeaders(HttpServletResponse response) {
+	 /**
+		 * Sets the access control headers.
+		 *
+		 * @param response the new access control headers
+		 */
+		private void setAccessControlHeaders(HttpServletResponse response) {
 	      response.setHeader("Access-Control-Allow-Origin", "*");
 	      response.setHeader("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE");
 	  }
 
-	 protected void doOptions(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	 /**
+ 	 * Do options.
+ 	 *
+ 	 * @param request 
+ 	 * @param response 
+ 	 * @throws ServletException 
+ 	 * @throws IOException Signals that an I/O exception has occurred.
+ 	 */
+ 	protected void doOptions(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		 response.setHeader("Access-Control-Allow-Origin", "*");
 	     response.setHeader("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE");
 		}

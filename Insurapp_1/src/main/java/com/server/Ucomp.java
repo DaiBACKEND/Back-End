@@ -13,14 +13,19 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.server.ConnectionBD;
 
+// TODO: Auto-generated Javadoc
 /**
- * Servlet implementation class Ucomp
+ * Servlet implementation class Ucomp.
  */
 @WebServlet("/ucomp")
 public class Ucomp extends HttpServlet {
+	
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
        
     /**
+     * Instantiates a new ucomp.
+     *
      * @see HttpServlet#HttpServlet()
      */
     public Ucomp() {
@@ -29,6 +34,12 @@ public class Ucomp extends HttpServlet {
     }
 
 	/**
+	 * Do get.
+	 *
+	 * @param request 
+	 * @param response 
+	 * @throws ServletException 
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 * função que mostra a view user compartimento, que se trata do compartimento de cada user
 	 */
@@ -49,11 +60,24 @@ public class Ucomp extends HttpServlet {
 			}
 		}
 	
+	/**
+	 * Sets the access control headers.
+	 *
+	 * @param response the new access control headers
+	 */
 	private void setAccessControlHeaders(HttpServletResponse response) {
 	      response.setHeader("Access-Control-Allow-Origin", "*");
 	      response.setHeader("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE");
 	  }
 
+	/**
+	 * Do options.
+	 *
+	 * @param request 
+	 * @param response 
+	 * @throws ServletException 
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	protected void doOptions(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		 response.setHeader("Access-Control-Allow-Origin", "*");
 	     response.setHeader("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE");

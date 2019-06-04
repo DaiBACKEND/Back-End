@@ -3,9 +3,6 @@ package com.server;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,16 +10,20 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
+// TODO: Auto-generated Javadoc
 /**
- * Servlet implementation class Login
+ * Servlet implementation class Login.
  */
 @WebServlet("/login")
 public class Login extends HttpServlet {
+	
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
        
     /**
+     * Instantiates a new login.
+     *
      * @see HttpServlet#HttpServlet()
      */
     public Login() {
@@ -31,6 +32,12 @@ public class Login extends HttpServlet {
     }
 
 	/**
+	 * Do post.
+	 *
+	 * @param request 
+	 * @param response 
+	 * @throws ServletException 
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 * função de login, onde são inseridos os dados e é respondido em json o que está errado ou se está correto os dados necessários
 	 */
@@ -63,11 +70,25 @@ public class Login extends HttpServlet {
 		
 	}
 
-	 private void setAccessControlHeaders(HttpServletResponse response) {
+	 /**
+ 	 * Sets the access control headers.
+ 	 *
+ 	 * @param response the new access control headers
+ 	 */
+ 	private void setAccessControlHeaders(HttpServletResponse response) {
 	      response.setHeader("Access-Control-Allow-Origin", "*");
 	      response.setHeader("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE");
 	  }
-	 protected void doOptions(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	 
+ 	/**
+ 	 * Do options.
+ 	 *
+ 	 * @param request 
+ 	 * @param response 
+ 	 * @throws ServletException 
+ 	 * @throws IOException Signals that an I/O exception has occurred.
+ 	 */
+ 	protected void doOptions(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		 response.setHeader("Access-Control-Allow-Origin", "*");
 	     response.setHeader("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE");
 		}

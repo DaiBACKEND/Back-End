@@ -9,14 +9,19 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+// TODO: Auto-generated Javadoc
 /**
- * Servlet implementation class Experts
+ * Servlet implementation class Experts.
  */
 @WebServlet("/experts")
 public class Experts extends HttpServlet {
+	
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
        
     /**
+     * Instantiates a new experts.
+     *
      * @see HttpServlet#HttpServlet()
      */
     public Experts() {
@@ -25,6 +30,12 @@ public class Experts extends HttpServlet {
     }
 
 	/**
+	 * Do get.
+	 *
+	 * @param request 
+	 * @param response 
+	 * @throws ServletException 
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 * função de mostrar a view de todos os peritos
 	 */
@@ -43,11 +54,24 @@ public class Experts extends HttpServlet {
 			}
 		}
 	
+	/**
+	 * Sets the access control headers.
+	 *
+	 * @param response the new access control headers
+	 */
 	private void setAccessControlHeaders(HttpServletResponse response) {
 	      response.setHeader("Access-Control-Allow-Origin", "*");
 	      response.setHeader("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE");
 	  }
 
+	/**
+	 * Do options.
+	 *
+	 * @param request 
+	 * @param response 
+	 * @throws ServletException 
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	protected void doOptions(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		 response.setHeader("Access-Control-Allow-Origin", "*");
 	     response.setHeader("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE");

@@ -14,14 +14,19 @@ import javax.servlet.http.HttpServletResponse;
 import org.json.JSONException;
 
 
+// TODO: Auto-generated Javadoc
 /**
- * Servlet implementation class Contracts
+ * Servlet implementation class Contracts.
  */
 @WebServlet({ "/contracts", "/contracts/*" })
 public class Contracts extends HttpServlet {
+	
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
        
     /**
+     * Instantiates a new contracts.
+     *
      * @see HttpServlet#HttpServlet()
      */
     public Contracts() {
@@ -30,6 +35,12 @@ public class Contracts extends HttpServlet {
     }
 
 	/**
+	 * Do get.
+	 *
+	 * @param request 
+	 * @param response 
+	 * @throws ServletException 
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 * função de mostrar todos os contratos da base de dados
 	 */
@@ -52,6 +63,12 @@ public class Contracts extends HttpServlet {
 	}
 
 	/**
+	 * Do post.
+	 *
+	 * @param request 
+	 * @param response 
+	 * @throws ServletException 
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 * função de criação de um contrato mediantes os dados inseridos
 	 */
@@ -70,7 +87,14 @@ public class Contracts extends HttpServlet {
 			e.printStackTrace();
 		}
 	}
+	
 	/**
+	 * Do put.
+	 *
+	 * @param request 
+	 * @param response 
+	 * @throws ServletException 
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 * @see HttpServlet#doPut(HttpServletRequest, HttpServletResponse)
 	 * função de update dos dados de um contrato já existente
 	 */
@@ -84,12 +108,12 @@ public class Contracts extends HttpServlet {
 				String colunas[] = {};
 				String valores[]= {};
 				String url = request.getRequestURI();
+				Map<String, String> valores1 = BuscarURL.UrlValues(url);
+			    String route = valores1.get("route");
 				
 				
 				if (BuscarURL.UrlContainsValues(url))
 				{
-					Map<String, String> valores1 = BuscarURL.UrlValues(url);
-				    String route = valores1.get("route");
 				    
 					String apolice = valores1.get("apolice");
 					String morada = valores1.get("morada");
@@ -118,6 +142,12 @@ public class Contracts extends HttpServlet {
 	}
 
 	/**
+	 * Do delete.
+	 *
+	 * @param request 
+	 * @param response 
+	 * @throws ServletException
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 * @see HttpServlet#doDelete(HttpServletRequest, HttpServletResponse)
 	 * função de eliminação de um contrato com o id inserido no url
 	 */
@@ -137,11 +167,24 @@ public class Contracts extends HttpServlet {
 				}
 		}
 
+/**
+ * Sets the access control headers.
+ *
+ * @param response the new access control headers
+ */
 private void setAccessControlHeaders(HttpServletResponse response) {
 	      response.setHeader("Access-Control-Allow-Origin", "*");
 	      response.setHeader("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE");
 	  }
 	
+/**
+ * Do options.
+ *
+ * @param request 
+ * @param response 
+ * @throws ServletException 
+ * @throws IOException Signals that an I/O exception has occurred.
+ */
 protected void doOptions(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	 response.setHeader("Access-Control-Allow-Origin", "*");
     response.setHeader("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE");
