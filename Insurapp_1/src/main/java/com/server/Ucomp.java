@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.server.ConnectionBD;
 
-// TODO: Auto-generated Javadoc
 /**
  * Servlet implementation class Ucomp.
  */
@@ -30,18 +29,17 @@ public class Ucomp extends HttpServlet {
      */
     public Ucomp() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**
 	 * Do get.
 	 *
-	 * @param request 
-	 * @param response 
-	 * @throws ServletException 
+	 * @param request
+	 * @param response
+	 * @throws ServletException
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 * função que mostra a view user compartimento, que se trata do compartimento de cada user
+	 * rota get que mostra a view user compartimento, que se trata do compartimento de cada user, em json
 	 */
     
     
@@ -55,7 +53,6 @@ public class Ucomp extends HttpServlet {
 			try {
 					response.getWriter().append((ConnectionBD.View(view, dados)));
 			} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}

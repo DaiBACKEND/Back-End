@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-// TODO: Auto-generated Javadoc
 /**
  * Servlet implementation class Login.
  */
@@ -28,15 +27,14 @@ public class Login extends HttpServlet {
      */
     public Login() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**
 	 * Do post.
 	 *
-	 * @param request 
+	 * @param request
 	 * @param response 
-	 * @throws ServletException 
+	 * @throws ServletException
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 * função de login, onde são inseridos os dados e é respondido em json o que está errado ou se está correto os dados necessários
@@ -49,7 +47,8 @@ public class Login extends HttpServlet {
 		
 		try {
 			response.setContentType("application/json");
-			if(ConnectionBD.Login(emaill, password).substring(0,1).contentEquals("[")) {
+			if(ConnectionBD.Login(emaill, password).substring(0,1).contentEquals("[")) //se o resultado for igual ao id, tipo e email então cria os cookies
+			{
 				Cookie ck = new Cookie ("email", emaill);
 				ck.setMaxAge(30);
 				ck.setSecure(true);
@@ -59,7 +58,6 @@ public class Login extends HttpServlet {
 				try {
 						response.getWriter().append((ConnectionBD.Login(emaill, password)));
 				} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			
@@ -81,13 +79,13 @@ public class Login extends HttpServlet {
 	  }
 	 
  	/**
- 	 * Do options.
- 	 *
- 	 * @param request 
- 	 * @param response 
- 	 * @throws ServletException 
- 	 * @throws IOException Signals that an I/O exception has occurred.
- 	 */
+	  * Do options.
+	  *
+	  * @param request
+	  * @param response
+	  * @throws ServletException
+	  * @throws IOException Signals that an I/O exception has occurred.
+	  */
  	protected void doOptions(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		 response.setHeader("Access-Control-Allow-Origin", "*");
 	     response.setHeader("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE");

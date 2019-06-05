@@ -1,6 +1,4 @@
 package com.server;
-
-// TODO: Auto-generated Javadoc
 //construtor de um compartimento
 
 /**

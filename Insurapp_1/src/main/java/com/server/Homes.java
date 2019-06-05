@@ -13,8 +13,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.json.JSONException;
 
-
-// TODO: Auto-generated Javadoc
 /**
  * Servlet implementation class Homes.
  */
@@ -31,18 +29,17 @@ public class Homes extends HttpServlet {
      */
     public Homes() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**
 	 * Do get.
 	 *
-	 * @param request 
-	 * @param response 
-	 * @throws ServletException 
+	 * @param request
+	 * @param response
+	 * @throws ServletException
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 * função de mostrar todas as casas presentes na base de dados
+	 * rota get para mostrar todas as casas presentes na base de dados
 	 */
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -54,10 +51,8 @@ public class Homes extends HttpServlet {
 			try {
 					response.getWriter().append((ConnectionBD.SelectQuery(tabela)));
 			} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (JSONException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 	}
@@ -65,21 +60,21 @@ public class Homes extends HttpServlet {
 	/**
 	 * Do post.
 	 *
-	 * @param request 
-	 * @param response 
-	 * @throws ServletException 
+	 * @param request
+	 * @param response
+	 * @throws ServletException
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 * função de criação de uma casa
+	 * rota post para a criação de uma habitação
 	 */
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		setAccessControlHeaders(response);
     	request.setCharacterEncoding("UTF-8");
-		
-		
 		String tabela = "habitacao";
+		//nome das colunas
 		String[] colunas = {"user_id", "nome"};		
+		//buscar valores inseridos
 		Object[] valores = {request.getParameter("user_id"), request.getParameter("nome")};
 		try {
 			response.setContentType("application/json");
@@ -92,12 +87,12 @@ public class Homes extends HttpServlet {
 	/**
 	 * Do put.
 	 *
-	 * @param request 
-	 * @param response 
-	 * @throws ServletException 
+	 * @param request
+	 * @param response
+	 * @throws ServletException
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 * @see HttpServlet#doPut(HttpServletRequest, HttpServletResponse)
-	 * função de update dos dados de uma casa
+	 * rota put para o update dos dados de uma casa
 	 */
 
 	protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -113,9 +108,10 @@ public class Homes extends HttpServlet {
 			    String route = valores1.get("route");
 				
 				
-				if (BuscarURL.UrlContainsValues(url))
+				if (BuscarURL.UrlContainsValues(url)) //verifica se a rota tem valores
 				{
-					
+					//se sim vai buscá-los
+					id = valores1.get("id");
 					String user_id = valores1.get("user_id");
 					String nome = valores1.get("nome");
 					
@@ -125,7 +121,6 @@ public class Homes extends HttpServlet {
 					String v[] = {user_id, nome};
 					valores = v;
 					
-					id = valores1.get("id");
 					try {
 						 ConnectionBD.UpdateQuery(tabela, colunas, valores, id);
 					 } catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e) {
@@ -135,6 +130,7 @@ public class Homes extends HttpServlet {
 				}
 				else
 				{
+					//se não dá um aviso que nenhum valor foi recebido
 					System.out.println("Nenhum valor foi recebido!!");
 				}
 	}
@@ -142,25 +138,22 @@ public class Homes extends HttpServlet {
 	/**
 	 * Do delete.
 	 *
-	 * @param request 
-	 * @param response 
-	 * @throws ServletException 
+	 * @param request
+	 * @param response
+	 * @throws ServletException
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 * @see HttpServlet#doDelete(HttpServletRequest, HttpServletResponse)
-	 * função de eliminar uma casa pelo id inserido no url
+	 * rota delete para eliminar uma casa pelo id inserido no url
 	 */
 	
 	protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		setAccessControlHeaders(response);
     	request.setCharacterEncoding("UTF-8");
-		
-		String id = "";
 		String tabela = "habitacao";
-		id = request.getPathInfo().substring(1);
+		String id = request.getPathInfo().substring(1); //buscar resultado que está depois do nome da rota retirando a /
 			    try {
 					ConnectionBD.DeleteQuery(tabela, id);
 				} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 		}
@@ -176,13 +169,13 @@ public class Homes extends HttpServlet {
 	  }
 	 
  	/**
- 	 * Do options.
- 	 *
- 	 * @param request 
- 	 * @param response 
- 	 * @throws ServletException
- 	 * @throws IOException Signals that an I/O exception has occurred.
- 	 */
+	  * Do options.
+	  *
+	  * @param request
+	  * @param response
+	  * @throws ServletException
+	  * @throws IOException Signals that an I/O exception has occurred.
+	  */
  	protected void doOptions(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		 response.setHeader("Access-Control-Allow-Origin", "*");
 	     response.setHeader("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE");

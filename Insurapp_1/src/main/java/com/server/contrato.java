@@ -1,6 +1,5 @@
 package com.server;
 
-// TODO: Auto-generated Javadoc
 //construtor de um contrato
 
 /**
@@ -30,11 +29,11 @@ public class contrato {
 	/**
 	 * Instantiates a new contrato.
 	 *
-	 * @param id 
-	 * @param apolice 
-	 * @param morada 
+	 * @param id
+	 * @param apolice
+	 * @param morada
 	 * @param user_id 
-	 * @param descricao 
+	 * @param descricao
 	 * @param data_validade
 	 */
 	public contrato(String id, String apolice, String morada, String user_id, String descricao, String data_validade)

@@ -3,8 +3,6 @@ package com.server;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.ServletException;
@@ -15,9 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.json.JSONException;
 
-import com.google.gson.Gson;
 
-// TODO: Auto-generated Javadoc
 /**
  * Servlet implementation class Compartments.
  */
@@ -34,7 +30,6 @@ public class Compartments extends HttpServlet {
      */
     public Compartments() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**
@@ -45,7 +40,7 @@ public class Compartments extends HttpServlet {
 	 * @throws ServletException
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 * função para mostrar todos os compartimentos presentes na base de dados
+	 * rota get para mostrar todos os compartimentos presentes na base de dados
 	 */
     
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -57,10 +52,8 @@ public class Compartments extends HttpServlet {
 			try {
 					response.getWriter().append((ConnectionBD.SelectQuery(tabela)));
 			} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (JSONException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -74,16 +67,18 @@ public class Compartments extends HttpServlet {
 	 * @throws ServletException
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 * função que cria compartimentos mediante os dados inseridos
+	 * rota post que cria compartimentos mediante os dados inseridos
 	 */
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		setAccessControlHeaders(response);
     	request.setCharacterEncoding("UTF-8");
-		
 		String tabela = "compartimento";
+		//nome das colunas
 		String[] colunas = {"habitacao_id", "descricao", "estado"};		
+		//buscar valores inseridos
 		Object[] valores = {request.getParameter("habitacao_id"), request.getParameter("descricao"), request.getParameter("estado")};
+		
 		try {
 			response.setContentType("application/json");
 			ConnectionBD.InsertQuery(tabela, colunas, valores);
@@ -106,7 +101,6 @@ public class Compartments extends HttpServlet {
 	protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		setAccessControlHeaders(response);
     	request.setCharacterEncoding("UTF-8");
-	
 		String tabela = "";
 		String id= "";
 		String colunas[] = {};
@@ -116,10 +110,10 @@ public class Compartments extends HttpServlet {
 	    String route = valores1.get("route");
 		
 		
-		if (BuscarURL.UrlContainsValues(url))
+		if (BuscarURL.UrlContainsValues(url)) //verifica se a rota tem valores
 		{
-			
-		    
+			//se sim vai buscá-los
+			id = valores1.get("id");
 			String habitacao_id = valores1.get("habitacao_id");
 			String descricao = valores1.get("descricao");
 			String estado = valores1.get("estado");
@@ -130,7 +124,7 @@ public class Compartments extends HttpServlet {
 			String v[] = {habitacao_id, descricao, estado};
 			valores = v;
 			
-			id = valores1.get("id");
+			
 			try {
 				 ConnectionBD.UpdateQuery(tabela, colunas, valores, id);
 			 } catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e) {
@@ -140,6 +134,7 @@ public class Compartments extends HttpServlet {
 		}
 		else
 		{
+			//se não dá um aviso que nenhum valor foi recebido
 			System.out.println("Nenhum valor foi recebido!!");
 		}
 	}
@@ -152,20 +147,17 @@ public class Compartments extends HttpServlet {
 	 * @throws ServletException
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 * @see HttpServlet#doDelete(HttpServletRequest, HttpServletResponse)
-	 * função de eliminar os compartimentos pelo id inserido no url
+	 * rota delete para eliminar os compartimentos pelo id inserido no url
 	 */
 	
 	protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		setAccessControlHeaders(response);
     	request.setCharacterEncoding("UTF-8");
-		
-		String id = "";
 		String tabela = "compartimento";
-		id = request.getPathInfo().substring(1);
+		String id = request.getPathInfo().substring(1); //buscar resultado que está depois do nome da rota retirando a /
 			    try {
 					ConnectionBD.DeleteQuery(tabela, id);
 				} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 		}
@@ -182,13 +174,13 @@ public class Compartments extends HttpServlet {
 	  }
 	 
  	/**
- 	 * Do options.
- 	 *
- 	 * @param request
- 	 * @param response
- 	 * @throws ServletException
- 	 * @throws IOException Signals that an I/O exception has occurred.
- 	 */
+	  * Do options.
+	  *
+	  * @param request
+	  * @param response
+	  * @throws ServletException
+	  * @throws IOException Signals that an I/O exception has occurred.
+	  */
  	protected void doOptions(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		 response.setHeader("Access-Control-Allow-Origin", "*");
 	     response.setHeader("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE");

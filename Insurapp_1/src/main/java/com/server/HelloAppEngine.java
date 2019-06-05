@@ -20,8 +20,8 @@ public class HelloAppEngine extends HttpServlet {
   /**
    * Do get.
    *
-   * @param request 
-   * @param response 
+   * @param request the request
+   * @param response the response
    * @throws IOException Signals that an I/O exception has occurred.
    */
   @Override

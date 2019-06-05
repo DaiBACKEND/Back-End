@@ -10,40 +10,41 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Servlet implementation class Experts.
+ * Servlet implementation class Losses25.
  */
-@WebServlet("/experts")
-public class Experts extends HttpServlet {
+@WebServlet("/losses25")
+public class Losses25 extends HttpServlet {
 	
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
        
     /**
-     * Instantiates a new experts.
+     * Instantiates a new losses 25.
      *
      * @see HttpServlet#HttpServlet()
      */
-    public Experts() {
+    public Losses25() {
         super();
     }
 
-	/**
-	 * Do get.
-	 *
-	 * @param request 
-	 * @param response
-	 * @throws ServletException
-	 * @throws IOException Signals that an I/O exception has occurred.
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 * rota get para mostrar a view de todos os peritos
-	 */
+    /**
+     * Do get.
+     *
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException Signals that an I/O exception has occurred.
+     * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+     * rota get que mostra todos os elementos da view sinistros25 da base de dados
+     */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
 		setAccessControlHeaders(response);
     	request.setCharacterEncoding("UTF-8");
     	response.setContentType("application/json");
-    	String view = "peritos_corrigido";
-    	String dados = "user";
-    	
+    	String view = "sinistro25";
+    	String dados = "sinistro";
+		
 			try {
 					response.getWriter().append((ConnectionBD.View(view, dados)));
 			} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e) {
@@ -64,7 +65,7 @@ public class Experts extends HttpServlet {
 	/**
 	 * Do options.
 	 *
-	 * @param request 
+	 * @param request
 	 * @param response
 	 * @throws ServletException
 	 * @throws IOException Signals that an I/O exception has occurred.
@@ -72,6 +73,8 @@ public class Experts extends HttpServlet {
 	protected void doOptions(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		 response.setHeader("Access-Control-Allow-Origin", "*");
 	     response.setHeader("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE");
-		}	
+		}
 
-}
+	}
+
+

@@ -1,6 +1,5 @@
 package com.server;
 
-// TODO: Auto-generated Javadoc
 //construtor de um "login"
 
 /**
@@ -20,9 +19,9 @@ public class logins {
 		/**
 		 * Instantiates a new logins.
 		 *
-		 * @param id 
-		 * @param tipo_id 
-		 * @param email 
+		 * @param id
+		 * @param tipo_id
+		 * @param email
 		 */
 		public logins(String id, String tipo_id, String email)
 		{

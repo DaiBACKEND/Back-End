@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-// TODO: Auto-generated Javadoc
 /**
  * Servlet implementation class Emails.
  */
@@ -26,18 +25,17 @@ public class Emails extends HttpServlet {
      */
     public Emails() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**
 	 * Do get.
 	 *
-	 * @param request 
-	 * @param response 
-	 * @throws ServletException 
+	 * @param request
+	 * @param response
+	 * @throws ServletException
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 * função de mostrar a view de todos os emails da base de dados
+	 * rota get para mostrar a view de todos os emails da base de dados
 	 */
     
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -50,7 +48,6 @@ public class Emails extends HttpServlet {
 			try {
 					response.getWriter().append((ConnectionBD.View(view, dados)));
 			} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -68,9 +65,9 @@ public class Emails extends HttpServlet {
 	/**
 	 * Do options.
 	 *
-	 * @param request 
-	 * @param response 
-	 * @throws ServletException 
+	 * @param request
+	 * @param response
+	 * @throws ServletException
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	protected void doOptions(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

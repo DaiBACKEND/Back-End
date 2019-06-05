@@ -9,8 +9,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
-// TODO: Auto-generated Javadoc
 /**
  * Servlet implementation class Clients.
  */
@@ -38,7 +36,7 @@ public class Clients extends HttpServlet {
 	 * @throws ServletException
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 * função de mostrar a view com todos os clientes da base de dados
+	 * rota get para mostrar a view com todos os clientes da base de dados
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		setAccessControlHeaders(response);
@@ -50,7 +48,6 @@ public class Clients extends HttpServlet {
 			try {
 					response.getWriter().append((ConnectionBD.View(view, dados)));
 			} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}

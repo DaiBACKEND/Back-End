@@ -15,7 +15,6 @@ import javax.servlet.http.HttpServletResponse;
 import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.Statement;
 
-// TODO: Auto-generated Javadoc
 /**
  * Servlet implementation class ImageLosses.
  */
@@ -32,7 +31,6 @@ public class ImageLosses extends HttpServlet {
      */
     public ImageLosses() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**
@@ -43,7 +41,7 @@ public class ImageLosses extends HttpServlet {
 	 * @throws ServletException 
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 * função de mostrar a imagem do sinistro pelo id inserido no url
+	 * rota get para mostrar a imagem do sinistro pelo id inserido no url
 	 */
     
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -61,14 +59,14 @@ public class ImageLosses extends HttpServlet {
 	        stmt = (Statement) conn.createStatement();
     		String id = request.getPathInfo().substring(1);
 	        ResultSet rs1;
-	        rs1 = stmt.executeQuery("select fotos from sinistro where id = " + id );
+	        rs1 = stmt.executeQuery("select fotos from sinistro where id = " + id ); //query para ir buscar as imagens
 
 	        if (rs1.next()) {
-	            byte[] imgData = rs1.getBytes("fotos"); 
+	            byte[] imgData = rs1.getBytes("fotos");  //inserir num array os bytes da foto
 	            response.setHeader("expires", "0");
 	            response.setContentType("image/jpg");
 
-	            OutputStream os = response.getOutputStream(); 
+	            OutputStream os = response.getOutputStream(); //imprime a imagem
 	            os.write(imgData);
 	            os.flush();
 	            os.close();
@@ -78,7 +76,6 @@ public class ImageLosses extends HttpServlet {
 	        
 	        ex.printStackTrace();
 	    } catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 	        if (conn != null) {

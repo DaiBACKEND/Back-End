@@ -1,10 +1,9 @@
 package com.server;
 import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
+import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.Map;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class BuscarURL.
  */
@@ -12,11 +11,11 @@ public class BuscarURL
 {
 	
 	/**
-	 * Url values.
+	 * URLValues.
 	 *
-	 * @param url Url recebido através de um pedido HTTP
-	 * @return Tabela que contém os parâmetros e valores enviados pelo url, inclui também a rota original
-	 * @throws UnsupportedEncodingException 
+	 * @param url url recebido
+	 * @return Map que tem os parâmetros e valores inseridos no url
+	 * @throws UnsupportedEncodingException the unsupported encoding exception
 	 */
 	public static Map<String,String> UrlValues(String url) throws UnsupportedEncodingException
 	{
@@ -40,7 +39,8 @@ public class BuscarURL
     		} 
     	else 
     		{
-    		valores.put(url_values[0], URLEncoder.encode(url_values[1], "UTF-8"));
+    		valores.put(url_values[0], URLDecoder.decode(url_values[1], "UTF-8"));
+    		//URLEncoder.encode(url_values[1], "UTF-8")
 	    	System.out.println(url_values[0] + ": " + url_values[1]);
     		}
     	
@@ -59,7 +59,7 @@ public class BuscarURL
 	/**
 	 * Url contains values.
 	 *
-	 * @param url
+	 * @param url 
 	 * @return true, if successful
 	 */
 	public static boolean UrlContainsValues(String url)

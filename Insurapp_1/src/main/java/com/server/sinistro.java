@@ -1,6 +1,5 @@
 package com.server;
 
-// TODO: Auto-generated Javadoc
 //construtor de um sinistro
 
 /**
@@ -14,29 +13,36 @@ public class sinistro {
 	/** The descricao. */
 	public String descricao;
 	
-	/** The titulos. */
-	public String titulos;
+	/** The titulo. */
+	public String titulo;
+	
+	/** The estado_id. */
+	public String estado_id;
+	
+	/** The user_id. */
+	public String user_id;
 
 	
 	/**
 	 * Instantiates a new sinistro.
 	 *
-	 * @param id 
-	 * @param estado_id 
-	 * @param user_id 
-	 * @param contrato_apolice 
-	 * @param contrato_morada 
-	 * @param descricao 
-	 * @param intervencao_autoridades 
-	 * @param titulos 
+	 * @param id
+	 * @param descricao
+	 * @param titulo
+	 * @param estado_id
+	 * @param user_id
 	 */
-	public sinistro(String id, String descricao, String titulos)
+	public sinistro(String id, String descricao, String titulo, String estado_id, String user_id)
 	{
 		this.id = id;
 		
 		this.descricao = descricao;
 		
-		this.titulos = titulos;
+		this.titulo = titulo;
+		
+		this.estado_id = estado_id;
+		
+		this.user_id = user_id;
 		
 	}
 }

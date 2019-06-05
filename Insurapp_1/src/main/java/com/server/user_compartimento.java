@@ -1,6 +1,5 @@
 package com.server;
 
-// TODO: Auto-generated Javadoc
 //construtor de um compartimento de um user
 
 /**
@@ -22,9 +21,9 @@ public class user_compartimento
 	/**
 	 * Instantiates a new user compartimento.
 	 *
-	 * @param nome 
-	 * @param nomeDaHab 
-	 * @param descomp 
+	 * @param nome
+	 * @param nomeDaHab
+	 * @param descomp
 	 */
 	public user_compartimento(String nome, String nomeDaHab, String descomp)
 	{

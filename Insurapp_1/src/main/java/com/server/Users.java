@@ -11,9 +11,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.json.JSONException;
 
-
-
-// TODO: Auto-generated Javadoc
 /**
  * Servlet implementation class Users.
  */
@@ -30,7 +27,6 @@ public class Users extends HttpServlet {
      */
     public Users() {
         super();
-        // TODO Auto-generated constructor stub
     }
    
 	/**
@@ -41,7 +37,7 @@ public class Users extends HttpServlet {
 	 * @throws ServletException
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 * quando o url apenas contem /users mostra todos e quando contem /users/* mostra pelo id do tipo inserido no url
+	 * rota get que mostra os users presentes na base de dados, todos quando apenas é chamada a rota /users e por id quando é chamada com o argumento adicional, em json
 	 */
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -51,27 +47,24 @@ public class Users extends HttpServlet {
     	
     	String id = "";
     	String tabela = "user";
-		if(request.getPathInfo() == null)
+		if(request.getPathInfo() == null) //verifica se o url tem algum elemento para além da rota
 		{
-			
+			//se não, mostra todos os elementos da tabela
 			try {
 					response.getWriter().append((ConnectionBD.SelectQuery(tabela)));
 			} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (JSONException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 		else {
-			
+			//se sim, apresenta o elemento com o id inserido
 			response.setContentType("application/json");
-			id = request.getPathInfo().substring(1);
+			id = request.getPathInfo().substring(1); //buscar resultado que está depois do nome da rota retirando a /
 			    try {
 			    	response.getWriter().append((ConnectionBD.UserId(tabela, id)));
 				} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 		}
@@ -85,10 +78,10 @@ public class Users extends HttpServlet {
 	 *
 	 * @param request
 	 * @param response
-	 * @throws ServletException 
+	 * @throws ServletException
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 * função que cria um utilizador inserindo os dados necessários
+	 * rota post que cria um utilizador inserindo os dados necessários
 	 */
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -116,7 +109,7 @@ public class Users extends HttpServlet {
 	 * @throws ServletException
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 * @see HttpServlet#doPut(HttpServletRequest, HttpServletResponse)
-	 * função que dá update aos dados de um utilizador já existente
+	 * rota put que dá update aos dados de um utilizador já existente
 	 */
 	
 	protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -131,10 +124,11 @@ public class Users extends HttpServlet {
 		Map<String, String> valores1 = BuscarURL.UrlValues(url);
 	    String route = valores1.get("route");
 		
-		if (BuscarURL.UrlContainsValues(url))
+		if (BuscarURL.UrlContainsValues(url)) //verifica se o url tem valores para além da rota
 		{
 
-		    
+			//se sim vai buscá-los
+			id = valores1.get("id");
 			String tipo_id = valores1.get("tipo_id");
 			String nome = valores1.get("nome");
 			String email = valores1.get("email");
@@ -156,7 +150,7 @@ public class Users extends HttpServlet {
 			String v[] = {tipo_id, nome, email, password, morada, contacto, nif, sexo, data_nascimento, numero_contrato, cidade, pais, codigo_postal};
 			valores = v;
 			
-			id = valores1.get("id");
+			
 			try {
 				 ConnectionBD.UpdateQuery(tabela, colunas, valores, id);
 			 } catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e) {
@@ -166,6 +160,7 @@ public class Users extends HttpServlet {
 		}
 		else
 		{
+			//se não dá um aviso que nenhum valor foi recebido
 			System.out.println("Nenhum valor foi recebido!!");
 		}
 	}
@@ -173,26 +168,23 @@ public class Users extends HttpServlet {
 	/**
 	 * Do delete.
 	 *
-	 * @param request 
-	 * @param response 
-	 * @throws ServletException 
+	 * @param request
+	 * @param response
+	 * @throws ServletException
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 * @see HttpServlet#doDelete(HttpServletRequest, HttpServletResponse)
-	 * função que elimina o user pelo id inserido no url
+	 * rota delete que elimina o user pelo id inserido no url
 	 */
 	
 	protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		setAccessControlHeaders(response);
     	request.setCharacterEncoding("UTF-8");
-		
-		String id = "";
 		String tabela = "user";
 		response.setContentType("application/json");
-		id = request.getPathInfo().substring(1);
+		String id = request.getPathInfo().substring(1); //buscar resultado que está depois do nome da rota retirando a /
 			    try {
 					ConnectionBD.DeleteQuery(tabela, id);
 				} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 		}
@@ -203,17 +195,17 @@ public class Users extends HttpServlet {
 		 *
 		 * @param response the new access control headers
 		 */
-		private void setAccessControlHeaders(HttpServletResponse response) {
-	      response.setHeader("Access-Control-Allow-Origin", "*");
-	      response.setHeader("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE");
+    private void setAccessControlHeaders(HttpServletResponse response) {
+	  response.setHeader("Access-Control-Allow-Origin", "*");
+	  response.setHeader("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE");
 	  }
 
 	 /**
  	 * Do options.
  	 *
  	 * @param request 
- 	 * @param response 
- 	 * @throws ServletException 
+ 	 * @param response
+ 	 * @throws ServletException
  	 * @throws IOException Signals that an I/O exception has occurred.
  	 */
  	protected void doOptions(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

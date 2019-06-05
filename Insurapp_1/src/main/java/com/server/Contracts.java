@@ -13,8 +13,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.json.JSONException;
 
-
-// TODO: Auto-generated Javadoc
 /**
  * Servlet implementation class Contracts.
  */
@@ -31,18 +29,18 @@ public class Contracts extends HttpServlet {
      */
     public Contracts() {
         super();
-        // TODO Auto-generated constructor stub
+       
     }
 
 	/**
 	 * Do get.
 	 *
-	 * @param request 
-	 * @param response 
-	 * @throws ServletException 
+	 * @param request
+	 * @param response
+	 * @throws ServletException
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 * função de mostrar todos os contratos da base de dados
+	 * rota get para mostrar todos os contratos da base de dados
 	 */
     
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -54,10 +52,8 @@ public class Contracts extends HttpServlet {
 			try {
 					response.getWriter().append((ConnectionBD.SelectQuery(tabela)));
 			} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (JSONException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 	}
@@ -65,20 +61,21 @@ public class Contracts extends HttpServlet {
 	/**
 	 * Do post.
 	 *
-	 * @param request 
-	 * @param response 
-	 * @throws ServletException 
+	 * @param request
+	 * @param response
+	 * @throws ServletException
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 * função de criação de um contrato mediantes os dados inseridos
+	 * rota post para a criação de um contrato mediantes os dados inseridos
 	 */
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		setAccessControlHeaders(response);
     	request.setCharacterEncoding("UTF-8");
-		
 		String tabela = "contrato";
+		//nome das colunas
 		String[] colunas = {"apolice", "morada", "user_id", "descricao", "data_validade"};		
+		//buscar os valores
 		Object[] valores = {request.getParameter("apolice"), request.getParameter("morada"), request.getParameter("user_id"), request.getParameter("descricao"), request.getParameter("data_validade")};
 		try {
 			response.setContentType("application/json");
@@ -91,12 +88,12 @@ public class Contracts extends HttpServlet {
 	/**
 	 * Do put.
 	 *
-	 * @param request 
-	 * @param response 
-	 * @throws ServletException 
+	 * @param request
+	 * @param response
+	 * @throws ServletException
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 * @see HttpServlet#doPut(HttpServletRequest, HttpServletResponse)
-	 * função de update dos dados de um contrato já existente
+	 * rota put para o update dos dados de um contrato já existente
 	 */
 
 	protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -112,9 +109,9 @@ public class Contracts extends HttpServlet {
 			    String route = valores1.get("route");
 				
 				
-				if (BuscarURL.UrlContainsValues(url))
+				if (BuscarURL.UrlContainsValues(url)) //verifica se a rota tem valores
 				{
-				    
+					//se sim vai buscá-los
 					String apolice = valores1.get("apolice");
 					String morada = valores1.get("morada");
 					String user_id = valores1.get("user_id");
@@ -137,6 +134,7 @@ public class Contracts extends HttpServlet {
 				}
 				else
 				{
+					//se não dá um aviso que nenhum valor foi recebido
 					System.out.println("Nenhum valor foi recebido!!");
 				}
 	}
@@ -144,25 +142,22 @@ public class Contracts extends HttpServlet {
 	/**
 	 * Do delete.
 	 *
-	 * @param request 
-	 * @param response 
+	 * @param request
+	 * @param response
 	 * @throws ServletException
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 * @see HttpServlet#doDelete(HttpServletRequest, HttpServletResponse)
-	 * função de eliminação de um contrato com o id inserido no url
+	 * rota delete para a eliminação de um contrato com o id inserido no url
 	 */
 	
 	protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		setAccessControlHeaders(response);
     	request.setCharacterEncoding("UTF-8");
-		
-		String id = "";
 		String tabela = "contrato";
-		id = request.getPathInfo().substring(1);
+		String id = request.getPathInfo().substring(1); //buscar resultado que está depois do nome da rota retirando a /
 			    try {
 					ConnectionBD.DeleteQuery(tabela, id);
 				} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 		}
@@ -180,9 +175,9 @@ private void setAccessControlHeaders(HttpServletResponse response) {
 /**
  * Do options.
  *
- * @param request 
- * @param response 
- * @throws ServletException 
+ * @param request
+ * @param response
+ * @throws ServletException
  * @throws IOException Signals that an I/O exception has occurred.
  */
 protected void doOptions(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

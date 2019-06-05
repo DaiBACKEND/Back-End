@@ -10,47 +10,66 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Servlet implementation class Experts.
+ * Servlet implementation class Lossesnr.
  */
-@WebServlet("/experts")
-public class Experts extends HttpServlet {
+@WebServlet({"/lossesnr", "/lossesnr/*"})
+public class Lossesnr extends HttpServlet {
 	
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
        
     /**
-     * Instantiates a new experts.
+     * Instantiates a new lossesnr.
      *
      * @see HttpServlet#HttpServlet()
      */
-    public Experts() {
+    public Lossesnr() {
         super();
     }
 
 	/**
 	 * Do get.
 	 *
-	 * @param request 
+	 * @param request
 	 * @param response
 	 * @throws ServletException
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 * rota get para mostrar a view de todos os peritos
+	 * função get para mostrar os sinistros não resolvidos, todos ou por id
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		setAccessControlHeaders(response);
     	request.setCharacterEncoding("UTF-8");
     	response.setContentType("application/json");
-    	String view = "peritos_corrigido";
-    	String dados = "user";
-    	
-			try {
+    	String view = "sinistronr";
+    	String dados = "sinistro";
+		
+			
+			String id = "";
+	    	String tabela = "sinistronr";
+			if(request.getPathInfo() == null) //verifica se o url tem algum elemento para além da rota
+			{
+				//se não tiver mostra todos os elementos da view
+				try {
 					response.getWriter().append((ConnectionBD.View(view, dados)));
 			} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e) {
 				e.printStackTrace();
 			}
-		}
-	
+			}
+			else {
+				//se tiver mostra os elementos pelo id inserido no url
+				response.setContentType("application/json");
+				id = request.getPathInfo().substring(1);
+				    try {
+				    	response.getWriter().append((ConnectionBD.ViewID(tabela, dados, id)));
+					} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+			}
+		
+	    		}
+
 	/**
 	 * Sets the access control headers.
 	 *
@@ -64,7 +83,7 @@ public class Experts extends HttpServlet {
 	/**
 	 * Do options.
 	 *
-	 * @param request 
+	 * @param request
 	 * @param response
 	 * @throws ServletException
 	 * @throws IOException Signals that an I/O exception has occurred.
@@ -72,6 +91,7 @@ public class Experts extends HttpServlet {
 	protected void doOptions(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		 response.setHeader("Access-Control-Allow-Origin", "*");
 	     response.setHeader("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE");
-		}	
+		}
 
 }
+

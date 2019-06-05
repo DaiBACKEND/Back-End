@@ -10,47 +10,46 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Servlet implementation class Experts.
+ * Servlet implementation class Validate.
  */
-@WebServlet("/experts")
-public class Experts extends HttpServlet {
+@WebServlet("/validate")
+public class Validate extends HttpServlet {
 	
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
        
     /**
-     * Instantiates a new experts.
+     * Instantiates a new validate.
      *
      * @see HttpServlet#HttpServlet()
      */
-    public Experts() {
+    public Validate() {
         super();
     }
 
-	/**
+    /**
 	 * Do get.
 	 *
-	 * @param request 
+	 * @param request
 	 * @param response
 	 * @throws ServletException
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 * rota get para mostrar a view de todos os peritos
+	 * rota get que mostra todos os elementos da view validate
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		setAccessControlHeaders(response);
     	request.setCharacterEncoding("UTF-8");
     	response.setContentType("application/json");
-    	String view = "peritos_corrigido";
-    	String dados = "user";
-    	
+    	String view = "validate";
+    	String dados = "validar";
+		
 			try {
 					response.getWriter().append((ConnectionBD.View(view, dados)));
 			} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e) {
 				e.printStackTrace();
 			}
 		}
-	
 	/**
 	 * Sets the access control headers.
 	 *
@@ -64,7 +63,7 @@ public class Experts extends HttpServlet {
 	/**
 	 * Do options.
 	 *
-	 * @param request 
+	 * @param request
 	 * @param response
 	 * @throws ServletException
 	 * @throws IOException Signals that an I/O exception has occurred.
@@ -72,6 +71,9 @@ public class Experts extends HttpServlet {
 	protected void doOptions(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		 response.setHeader("Access-Control-Allow-Origin", "*");
 	     response.setHeader("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE");
-		}	
+		}
 
 }
+
+
+

@@ -1,6 +1,5 @@
 package com.server;
 
-// TODO: Auto-generated Javadoc
 //construtor dos elementos da view emails
 
 /**
@@ -15,7 +14,7 @@ public class email {
 	/**
 	 * Instantiates a new email.
 	 *
-	 * @param emails 
+	 * @param emails
 	 */
 	public email(String emails)
 	{

@@ -1,6 +1,5 @@
 package com.server;
 
-// TODO: Auto-generated Javadoc
 //construtor de uma habitação
 
 /**
@@ -22,8 +21,8 @@ public class habitacao {
 	 * Instantiates a new habitacao.
 	 *
 	 * @param id 
-	 * @param user_id 
-	 * @param nome 
+	 * @param user_id
+	 * @param nome
 	 */
 	public habitacao(String id, String user_id, String nome)
 	{

@@ -3,23 +3,12 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-//import java.util.Map;
-
-
-//import org.json.JSONArray;
 import org.json.JSONException;
-
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mysql.jdbc.ResultSetMetaData;
 
-
-// TODO: Auto-generated Javadoc
 /**
  * The Class ConnectionBD.
  */
@@ -43,14 +32,14 @@ public class ConnectionBD {
 	/**
 	 * Select query.
 	 *
-	 * @param tabela 
+	 * @param tabela
 	 * @return string
 	 * @throws SQLException 
 	 * @throws InstantiationException
-	 * @throws IllegalAccessException
+	 * @throws IllegalAccessException 
 	 * @throws ClassNotFoundException 
-	 * @throws JSONException
-	 * código para buscar todos os dados à tabela escolhida e transforma em json 
+	 * @throws JSONException 
+	 * código para buscar todos os dados à tabela escolhida e transforma em json
 	 */
 	
 	public static String SelectQuery(String tabela) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException, JSONException
@@ -83,7 +72,6 @@ public class ConnectionBD {
 		try {
 			jsonInString = mapper.writeValueAsString(object_list);
 		} catch (JsonProcessingException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 
@@ -101,7 +89,7 @@ public class ConnectionBD {
 	 * @throws SQLException 
 	 * @throws InstantiationException 
 	 * @throws IllegalAccessException 
-	 * @throws ClassNotFoundException
+	 * @throws ClassNotFoundException 
 	 * código para inserir os dados na tabela escolhida com os dados inseridos
 	 */
 	
@@ -153,8 +141,8 @@ public class ConnectionBD {
 	 * @param colunas 
 	 * @param valores 
 	 * @param id 
-	 * @throws SQLException 
-	 * @throws InstantiationException 
+	 * @throws SQLException
+	 * @throws InstantiationException
 	 * @throws IllegalAccessException 
 	 * @throws ClassNotFoundException 
 	 * código para dar update aos dados de uma tabela escolhida
@@ -193,8 +181,8 @@ public class ConnectionBD {
 	 * @throws SQLException 
 	 * @throws InstantiationException 
 	 * @throws IllegalAccessException 
-	 * @throws ClassNotFoundException
-	 * código para eliminar uma linha da tabela escolhida usando o id 
+	 * @throws ClassNotFoundException 
+	 * código para eliminar uma linha da tabela escolhida usando o id
 	 */
 	
 	public static void DeleteQuery(String tabela, String id) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException
@@ -218,10 +206,10 @@ public class ConnectionBD {
 	 * @param passwordl 
 	 * @return string
 	 * @throws SQLException 
-	 * @throws InstantiationException
+	 * @throws InstantiationException 
 	 * @throws IllegalAccessException 
 	 * @throws ClassNotFoundException 
-	 * código que procura se o utilizador existe e se a sua password está correta
+	 * código que procura se o utilizador existe e se a sua password está correta e envia o resultado, se o utilizador não existe, se a password está errada, ou se está tudo correto devolve o id, o tipo e o email, tudo em formato json
 	 */
 	
 	public static String Login(String emaill, String passwordl) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException
@@ -244,7 +232,6 @@ public class ConnectionBD {
 					 try {
 						jsonInString = mapper.writeValueAsString(s);
 					} catch (JsonProcessingException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				 } 
@@ -269,7 +256,6 @@ public class ConnectionBD {
 						 	try {
 								jsonInString = mapper.writeValueAsString(object_list);
 							} catch (JsonProcessingException e) {
-								// TODO Auto-generated catch block
 								e.printStackTrace();
 							}
 					
@@ -279,7 +265,6 @@ public class ConnectionBD {
 	                	try {
 							jsonInString = mapper.writeValueAsString(s);
 						} catch (JsonProcessingException e) {
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
 	                }
@@ -295,11 +280,12 @@ public class ConnectionBD {
 	 * @param id
 	 * @return string
 	 * @throws SQLException
-	 * @throws InstantiationException
+	 * @throws InstantiationException 
 	 * @throws IllegalAccessException 
 	 * @throws ClassNotFoundException
+	 * código para procurar numa tabela pelo id
 	 */
-	//código para procurar os utilizadores pelo seu id
+	
 	public static String UserId(String tabela, String id) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException
 	{
 		Class.forName("com.mysql.jdbc.Driver").newInstance();
@@ -333,7 +319,6 @@ public class ConnectionBD {
 		try {
 			jsonInString = mapper.writeValueAsString(object_list);
 		} catch (JsonProcessingException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 
@@ -344,15 +329,16 @@ public class ConnectionBD {
 	/**
 	 * View.
 	 *
-	 * @param view the view
-	 * @param dados the dados
-	 * @return the string
-	 * @throws SQLException the SQL exception
-	 * @throws InstantiationException the instantiation exception
-	 * @throws IllegalAccessException the illegal access exception
-	 * @throws ClassNotFoundException the class not found exception
+	 * @param view
+	 * @param dados
+	 * @return string
+	 * @throws SQLException 
+	 * @throws InstantiationException 
+	 * @throws IllegalAccessException 
+	 * @throws ClassNotFoundException
+	 * código para mostrar a view escolhida 
 	 */
-	//código para mostrar a view escolhida
+	
 	public static String View(String view, String dados) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException
 	{
 		Class.forName("com.mysql.jdbc.Driver").newInstance();
@@ -385,7 +371,57 @@ public class ConnectionBD {
 		try {
 			jsonInString = mapper.writeValueAsString(object_list);
 		} catch (JsonProcessingException e1) {
-			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+
+		return jsonInString;	
+	}
+	
+	/**
+	 * View ID.
+	 *
+	 * @param view
+	 * @param dados
+	 * @param id
+	 * @return string
+	 * @throws SQLException
+	 * @throws InstantiationException
+	 * @throws IllegalAccessException 
+	 * @throws ClassNotFoundException 
+	 * função para ir buscar por id o elemento da view selecionada
+	 */
+	public static String ViewID(String view, String dados, String id) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException
+	{
+		Class.forName("com.mysql.jdbc.Driver").newInstance();
+
+		connection = DriverManager.getConnection(url, username, password);
+
+		String query = "SELECT * FROM " + view + " WHERE id = '" + id + "'";
+		
+		PreparedStatement sp = connection.prepareStatement(query);
+
+		ResultSet stat = sp.executeQuery();
+
+		ArrayList<Object> object_list = new ArrayList<Object>();
+	
+		while (stat.next()) 
+		{
+			object_list.add(BuscarValores.getValores(dados, stat));
+		}
+		
+		if(connection != null) {
+
+			System.out.println("");
+			connection.close();
+		}
+		
+		ObjectMapper mapper = new ObjectMapper();
+		
+		String jsonInString = "";
+		
+		try {
+			jsonInString = mapper.writeValueAsString(object_list);
+		} catch (JsonProcessingException e1) {
 			e1.printStackTrace();
 		}
 
